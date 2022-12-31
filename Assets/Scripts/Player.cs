@@ -34,7 +34,15 @@ public class Player : MonoBehaviour
     {
         Run();
         FlipSprite();
-        myAnimator.SetBool("grounded", isGrounded());
+
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Platforms" || collision.gameObject.tag == "Interactable")
+        {
+            myAnimator.SetBool("grounded", isGrounded());
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -56,7 +64,7 @@ public class Player : MonoBehaviour
         
         if (value.isPressed)
         {
-            Debug.Log("Value is Pressed");
+            myAnimator.SetBool("grounded", false);
             myAnimator.SetTrigger("isJumping");
             myRigidBody.velocity += new Vector2(0f, jumpSpeed);
         }

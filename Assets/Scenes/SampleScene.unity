@@ -7297,7 +7297,7 @@ GameObject:
   - component: {fileID: 1022741590}
   m_Layer: 6
   m_Name: Platforms Tilemap
-  m_TagString: Untagged
+  m_TagString: Platforms
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26817,6 +26817,10 @@ PrefabInstance:
     - target: {fileID: 2321139611934121640, guid: 55fa6a0a459dc12468c3db4dbc5e93ec, type: 3}
       propertyPath: m_Name
       value: Wooden Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 2321139611934121640, guid: 55fa6a0a459dc12468c3db4dbc5e93ec, type: 3}
+      propertyPath: m_TagString
+      value: Interactable
       objectReference: {fileID: 0}
     - target: {fileID: 2321139611934121815, guid: 55fa6a0a459dc12468c3db4dbc5e93ec, type: 3}
       propertyPath: m_RootOrder
