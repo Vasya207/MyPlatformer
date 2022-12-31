@@ -91,6 +91,7 @@ public class Player : MonoBehaviour
             if (!dead)
             {
                 myAnimator.SetTrigger("die");
+                myRigidBody.velocity = new Vector2(0,0);
                 GetComponent<Player>().enabled = false;
                 dead = true;
             }
