@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Platforms
+  - Spikes
+  - Enemy
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Platforms
+  - Background
+  - Interactable
+  - Player
+  - Flora
+  - Enemie
+  - Spikes
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1949368717
+    locked: 0
+  - name: Flora
+    uniqueID: 1400575019
+    locked: 0
+  - name: Enemie
+    uniqueID: 2607587919
+    locked: 0
+  - name: Player
+    uniqueID: 997636217
+    locked: 0
+  - name: Interactable
+    uniqueID: 1855067553
+    locked: 0
+  - name: Spikes
+    uniqueID: 1536913173
+    locked: 0
+  - name: Grass
+    uniqueID: 2013267331
+    locked: 0
+  - name: Platforms
+    uniqueID: 780296267
+    locked: 0
