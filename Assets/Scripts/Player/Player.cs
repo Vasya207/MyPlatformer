@@ -6,10 +6,19 @@ using UnityEngine.Animations;
 
 public class Player : MonoBehaviour
 {
+    [Header("Health Component")]
     [SerializeField] float startingHealth;
+
+    [Header("Movement Components")]
     [SerializeField] float moveSpeed = 10f;
     [SerializeField] float jumpSpeed = 10f;
+
+    [Header("Layers")]
     [SerializeField] LayerMask groundLayer;
+
+    [Header("iFrames")]
+    [SerializeField] float iFramesDuration;
+    [SerializeField] float numberOfFlashes;
 
     bool dead;
     Vector2 moveInput;
@@ -19,6 +28,7 @@ public class Player : MonoBehaviour
     Rigidbody2D myRigidBody;
     CapsuleCollider2D myCapsuleCollider;
     BoxCollider2D myFeet;
+    SpriteRenderer mySprite;
 
     void Awake()
     {
@@ -26,6 +36,7 @@ public class Player : MonoBehaviour
         myAnimator = GetComponent<Animator>();
         myCapsuleCollider = GetComponent<CapsuleCollider2D>();
         myFeet = GetComponentInChildren<BoxCollider2D>();
+        mySprite = GetComponent<SpriteRenderer>();
 
         currentHealth = startingHealth;
     }
@@ -93,6 +104,7 @@ public class Player : MonoBehaviour
         if (currentHealth > 0)
         {
             myAnimator.SetTrigger("hurt");
+            StartCoroutine(Invunerability());
         }
         else
         {
@@ -111,5 +123,23 @@ public class Player : MonoBehaviour
         RaycastHit2D raycastHit = Physics2D.BoxCast(myCapsuleCollider.bounds.center, myCapsuleCollider.bounds.size,
             0, Vector2.down, 0.1f, groundLayer);
         return raycastHit.collider != null;
+    }
+
+    public void AddHealth(float value)
+    {
+        currentHealth = Mathf.Clamp(currentHealth + value, 0, startingHealth);
+    }
+
+    private IEnumerator Invunerability()
+    {
+        Physics2D.IgnoreLayerCollision(9, 11, true);
+        for (int i = 0; i < numberOfFlashes; i++)
+        {
+            mySprite.color = new Color(1, 0.4283019f, 0.4489709f, 0.5f);
+            yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes * 2));
+            mySprite.color = Color.white;
+            yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes * 2));
+        }
+        Physics2D.IgnoreLayerCollision(9, 11, true);
     }
 }
