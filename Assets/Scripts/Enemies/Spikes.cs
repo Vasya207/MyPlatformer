@@ -3,9 +3,12 @@ using UnityEngine;
 public class Spikes : MonoBehaviour
 {
     [SerializeField] int damageAmount;
-     
-    public int TakeHealth()
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        return damageAmount;
+        if(collision.tag == "Player")
+        {
+            collision.GetComponent<Player>().TakeDamage(damageAmount);
+        }
     }
 }

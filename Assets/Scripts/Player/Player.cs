@@ -56,14 +56,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.tag == "Spikes")
-        {
-            TakeDamage(collision.GetComponent<Spikes>().TakeHealth());
-        }
-    }
-
     void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
@@ -140,6 +132,6 @@ public class Player : MonoBehaviour
             mySprite.color = Color.white;
             yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes * 2));
         }
-        Physics2D.IgnoreLayerCollision(9, 11, true);
+        Physics2D.IgnoreLayerCollision(9, 11, false);
     }
 }

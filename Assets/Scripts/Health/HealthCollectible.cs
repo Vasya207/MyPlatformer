@@ -8,6 +8,7 @@ public class HealthCollectible : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
+            if (collision.GetComponent<Player>().currentHealth >= 3) return;
             collision.GetComponent<Player>().AddHealth(healthValue);
             gameObject.SetActive(false);
         }        

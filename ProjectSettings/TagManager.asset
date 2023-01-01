@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - Platforms
-  - Spikes
   - Enemy
   - Interactable
   layers:
@@ -21,7 +20,7 @@ TagManager:
   - Player
   - Flora
   - Enemie
-  - Spikes
+  - 
   - 
   - 
   - 
@@ -51,14 +50,14 @@ TagManager:
   - name: Flora
     uniqueID: 1400575019
     locked: 0
+  - name: Interactable
+    uniqueID: 1855067553
+    locked: 0
   - name: Enemie
     uniqueID: 2607587919
     locked: 0
   - name: Player
     uniqueID: 997636217
-    locked: 0
-  - name: Interactable
-    uniqueID: 1855067553
     locked: 0
   - name: Spikes
     uniqueID: 1536913173

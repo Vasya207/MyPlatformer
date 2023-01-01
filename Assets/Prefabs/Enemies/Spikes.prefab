@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 7166626624493698536}
   - component: {fileID: 7166626624493698537}
   - component: {fileID: 7166626624493698454}
-  m_Layer: 12
+  m_Layer: 11
   m_Name: Spikes
-  m_TagString: Spikes
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
