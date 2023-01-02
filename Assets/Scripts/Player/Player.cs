@@ -6,12 +6,17 @@ using UnityEngine.Animations;
 
 public class Player : MonoBehaviour
 {
-    [Header("Health Component")]
+    [Header("Health Components")]
     [SerializeField] float startingHealth;
 
     [Header("Movement Components")]
     [SerializeField] float moveSpeed = 10f;
     [SerializeField] float jumpSpeed = 10f;
+
+    [Header("Attack Components")]
+    [SerializeField] float attackCooldown;
+    [SerializeField] Transform firePoint;
+    [SerializeField] GameObject[] arrows;
 
     [Header("Layers")]
     [SerializeField] LayerMask groundLayer;
@@ -23,6 +28,7 @@ public class Player : MonoBehaviour
     public bool dead { get; private set; }
     Vector2 moveInput;
     public float currentHealth { get; private set; }
+    float cooldownTimer = Mathf.Infinity;
 
     Animator myAnimator;
     Rigidbody2D myRigidBody;
@@ -46,13 +52,14 @@ public class Player : MonoBehaviour
         Run();
         FlipSprite();
 
+        cooldownTimer += Time.deltaTime;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Platforms" || collision.gameObject.tag == "Interactable")
         {
-            myAnimator.SetBool("grounded", isGrounded());
+            myAnimator.SetBool("grounded", true);
         }
     }
 
@@ -70,6 +77,18 @@ public class Player : MonoBehaviour
             myAnimator.SetBool("grounded", false);
             myAnimator.SetTrigger("isJumping");
             myRigidBody.velocity += new Vector2(0f, jumpSpeed);
+        }
+    }
+
+    void OnFire(InputValue value)
+    {
+        if (cooldownTimer > attackCooldown && canAttack())
+        {
+            myAnimator.SetTrigger("shoot");
+            cooldownTimer = 0;
+
+            arrows[FindArrow()].transform.position = firePoint.position;
+            arrows[FindArrow()].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
         }
     }
 
@@ -133,5 +152,22 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes * 2));
         }
         Physics2D.IgnoreLayerCollision(9, 11, false);
+    }
+
+    private int FindArrow()
+    {
+        for (int i = 0; i < arrows.Length; i++)
+        {
+            if (!arrows[i].activeInHierarchy)
+            {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    public bool canAttack()
+    {
+        return myRigidBody.velocity == new Vector2(0, 0) && isGrounded();
     }
 }
