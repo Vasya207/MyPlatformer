@@ -5,7 +5,8 @@ public class MeleeEnemy : MonoBehaviour
     [Header ("Attack Parameters")]
     [SerializeField] float attackCooldown;
     [SerializeField] float range;
-    [SerializeField] int damage;
+    [SerializeField] int hitDamage;
+    [SerializeField] float collisionDamage;
 
     [Header ("Collider Parameters")]
     [SerializeField] float colliderDistance;
@@ -45,6 +46,14 @@ public class MeleeEnemy : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Player")
+        {
+            collision.GetComponent<Player>().TakeDamage(collisionDamage);
+        }
+    }
+
     private bool PlayerInSight()
     {
         RaycastHit2D hit = Physics2D.BoxCast(boxCollider.bounds.center + transform.right * range * transform.localScale.x * colliderDistance,
@@ -71,8 +80,14 @@ public class MeleeEnemy : MonoBehaviour
         //if player is still in sight
         if (PlayerInSight())
         {
-            //Damage Player
-            player.TakeDamage(damage);
+            if(!player.dead)
+                player.TakeDamage(hitDamage);
+
+            else
+            {
+                GetComponentInParent<EnemiePatrol>().enabled = false;
+                gameObject.GetComponent<MeleeEnemy>().enabled = false;
+            }
         }
     }
 }

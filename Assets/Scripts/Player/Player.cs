@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     [SerializeField] float iFramesDuration;
     [SerializeField] float numberOfFlashes;
 
-    bool dead;
+    public bool dead { get; private set; }
     Vector2 moveInput;
     public float currentHealth { get; private set; }
 
