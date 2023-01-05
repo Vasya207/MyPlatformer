@@ -22,7 +22,7 @@ public class Projectile : MonoBehaviour
             lifeTime += Time.deltaTime;
             Debug.Log(lifeTime);
 
-            if (lifeTime > 3)
+            if (lifeTime > 2)
             {
                 gameObject.SetActive(false);
             }
@@ -36,10 +36,18 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        hit = true;
-        myCollider.enabled = false;
-        if(collision.tag == "Enemy")
+        if(collision.tag == "Platforms")
+        {
+            hit = true;
+            myCollider.enabled = false;
+        }
+        
+        else if(collision.tag == "Enemy")
+        {
+            myCollider.enabled = false;
             gameObject.SetActive(false);
+        }
+            
     }
 
     public void SetDirection(float _direction)

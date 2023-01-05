@@ -131,7 +131,8 @@ public class Player : MonoBehaviour
 
     private bool isGrounded()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(myCapsuleCollider.bounds.center, myCapsuleCollider.bounds.size,
+        RaycastHit2D raycastHit = Physics2D.BoxCast(myCapsuleCollider.bounds.center, 
+            new Vector2(myCapsuleCollider.bounds.size.x - 0.2f, myCapsuleCollider.bounds.size.y),
             0, Vector2.down, 0.1f, groundLayer);
         return raycastHit.collider != null;
     }
