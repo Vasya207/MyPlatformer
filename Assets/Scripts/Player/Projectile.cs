@@ -17,14 +17,20 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
-        if (hit) return;
-        float movementSpeed = speed * Time.deltaTime * direction;
-        transform.Translate(movementSpeed, 0, 0);
-
-        lifeTime += Time.deltaTime;
-        if (lifeTime > 3)
+        if (hit)
         {
-            gameObject.SetActive(false);
+            lifeTime += Time.deltaTime;
+            Debug.Log(lifeTime);
+
+            if (lifeTime > 3)
+            {
+                gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            float movementSpeed = speed * Time.deltaTime * direction;
+            transform.Translate(movementSpeed, 0, 0);
         }
     }
 
@@ -32,7 +38,8 @@ public class Projectile : MonoBehaviour
     {
         hit = true;
         myCollider.enabled = false;
-        gameObject.SetActive(false);
+        if(collision.tag == "Enemy")
+            gameObject.SetActive(false);
     }
 
     public void SetDirection(float _direction)
