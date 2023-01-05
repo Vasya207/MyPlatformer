@@ -53,31 +53,25 @@ public class Player : MonoBehaviour
         FlipSprite();
 
         cooldownTimer += Time.deltaTime;
+
+        myAnimator.SetBool("grounded", isGrounded());
+
+        if (Input.GetKey(KeyCode.Space))
+            Jump();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void Jump()
     {
-        if (collision.gameObject.tag == "Platforms" || collision.gameObject.tag == "Interactable")
+        if (isGrounded())
         {
-            myAnimator.SetBool("grounded", true);
+            myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, jumpSpeed);
+            myAnimator.SetTrigger("isJumping");
         }
     }
 
     void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
-    }
-
-    void OnJump(InputValue value)
-    {
-        if (isGrounded() == false) { return; }
-        
-        if (value.isPressed)
-        {
-            myAnimator.SetBool("grounded", false);
-            myAnimator.SetTrigger("isJumping");
-            myRigidBody.velocity += new Vector2(0f, jumpSpeed);
-        }
     }
 
     void OnFire(InputValue value)
@@ -132,7 +126,7 @@ public class Player : MonoBehaviour
     private bool isGrounded()
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(myCapsuleCollider.bounds.center, 
-            new Vector2(myCapsuleCollider.bounds.size.x - 0.2f, myCapsuleCollider.bounds.size.y),
+            new Vector2(myCapsuleCollider.bounds.size.x - 0.2f, myCapsuleCollider.bounds.size.y - 0.2f),
             0, Vector2.down, 0.1f, groundLayer);
         return raycastHit.collider != null;
     }
