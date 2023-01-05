@@ -6760,7 +6760,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.970644, y: -2.910951, z: -10}
+  m_LocalPosition: {x: -0.5493493, y: -2.9068844, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9626,6 +9626,14 @@ PrefabInstance:
     - target: {fileID: 4133449976684634795, guid: 365abf92bfa889f4e8ebcf5c6aefa4c8, type: 3}
       propertyPath: m_Name
       value: Curwa Griba
+      objectReference: {fileID: 0}
+    - target: {fileID: 4133449976684634803, guid: 365abf92bfa889f4e8ebcf5c6aefa4c8, type: 3}
+      propertyPath: m_Size.y
+      value: 1.3299856
+      objectReference: {fileID: 0}
+    - target: {fileID: 4133449976684634803, guid: 365abf92bfa889f4e8ebcf5c6aefa4c8, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.03323078
       objectReference: {fileID: 0}
     - target: {fileID: 4133449976684634806, guid: 365abf92bfa889f4e8ebcf5c6aefa4c8, type: 3}
       propertyPath: m_RootOrder
@@ -26988,6 +26996,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1350794388}
     m_Modifications:
+    - target: {fileID: 1209328730, guid: 8b02b9a9e4e35e446ac7b682ad687b5b, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4459998068684020069, guid: 8b02b9a9e4e35e446ac7b682ad687b5b, type: 3}
       propertyPath: m_Name
       value: HealthCollectible (4)
@@ -26998,11 +27010,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4459998068684020073, guid: 8b02b9a9e4e35e446ac7b682ad687b5b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.5
+      value: -2.48
       objectReference: {fileID: 0}
     - target: {fileID: 4459998068684020073, guid: 8b02b9a9e4e35e446ac7b682ad687b5b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.32
+      value: -5.16
       objectReference: {fileID: 0}
     - target: {fileID: 4459998068684020073, guid: 8b02b9a9e4e35e446ac7b682ad687b5b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -29063,7 +29075,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1590645972}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.9700003, y: -3.3100002, z: -10}
+  m_LocalPosition: {x: -0.5499997, y: -3.3100002, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -30633,7 +30645,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4459998068684020073, guid: 8b02b9a9e4e35e446ac7b682ad687b5b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4
+      value: 3.75
       objectReference: {fileID: 0}
     - target: {fileID: 4459998068684020073, guid: 8b02b9a9e4e35e446ac7b682ad687b5b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -31305,7 +31317,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2000476358}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.97, y: -3.31, z: 0}
+  m_LocalPosition: {x: -0.55, y: -3.31, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -31328,7 +31340,7 @@ MonoBehaviour:
   startingHealth: 3
   moveSpeed: 7
   jumpSpeed: 20
-  attackCooldown: 0.5
+  attackCooldown: 1
   firePoint: {fileID: 1407235895}
   arrows:
   - {fileID: 544496018}

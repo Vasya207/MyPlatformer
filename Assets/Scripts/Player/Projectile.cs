@@ -46,6 +46,7 @@ public class Projectile : MonoBehaviour
         {
             myCollider.enabled = false;
             gameObject.SetActive(false);
+            collision.GetComponent<MeleeEnemy>().TakeDamage(1);
         }
             
     }

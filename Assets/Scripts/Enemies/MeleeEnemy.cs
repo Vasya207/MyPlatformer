@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MeleeEnemy : MonoBehaviour
 {
@@ -8,6 +10,9 @@ public class MeleeEnemy : MonoBehaviour
     [SerializeField] int hitDamage;
     [SerializeField] float collisionDamage;
 
+    [Header("Health Components")]
+    [SerializeField] float startingHealth;
+
     [Header ("Collider Parameters")]
     [SerializeField] float colliderDistance;
     [SerializeField] BoxCollider2D boxCollider;
@@ -15,15 +20,18 @@ public class MeleeEnemy : MonoBehaviour
     [Header ("Player Layer")]
     [SerializeField] LayerMask playerLayer;
 
+    public bool dead { get; private set; }
     private float cooldownTimer = Mathf.Infinity;
+    private float currentHealth;
 
-    Animator animator;
+    Animator myAnimator;
     EnemiePatrol enemyPatrol;
     Player player;
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        currentHealth = startingHealth;
+        myAnimator = GetComponent<Animator>();
         enemyPatrol = GetComponentInParent<EnemiePatrol>();
     }
 
@@ -36,7 +44,7 @@ public class MeleeEnemy : MonoBehaviour
             if (cooldownTimer >= attackCooldown)
             {
                 cooldownTimer = 0f;
-                animator.SetTrigger("meleeAttack");
+                myAnimator.SetTrigger("meleeAttack");
             }
         }
 
@@ -87,6 +95,28 @@ public class MeleeEnemy : MonoBehaviour
             {
                 GetComponentInParent<EnemiePatrol>().enabled = false;
                 gameObject.GetComponent<MeleeEnemy>().enabled = false;
+            }
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        currentHealth = Mathf.Clamp(currentHealth - damage, 0, startingHealth);
+
+        if (currentHealth > 0)
+        {
+            myAnimator.SetTrigger("hurt");
+        }
+        else
+        {
+            if (!dead)
+            {
+                myAnimator.SetTrigger("die");
+                boxCollider.enabled = false;
+                GetComponent<MeleeEnemy>().enabled = false;
+                GetComponentInParent<EnemiePatrol>().enabled = false;
+                transform.position = new Vector2(transform.position.x, transform.position.y - 0.3f);
+                dead = true;
             }
         }
     }
