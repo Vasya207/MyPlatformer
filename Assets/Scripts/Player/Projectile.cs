@@ -20,7 +20,7 @@ public class Projectile : MonoBehaviour
         if (hit)
         {
             lifeTime += Time.deltaTime;
-            Debug.Log(lifeTime);
+            //Debug.Log(lifeTime);
 
             if (lifeTime > 2)
             {

@@ -33,7 +33,6 @@ public class Player : MonoBehaviour
     Animator myAnimator;
     Rigidbody2D myRigidBody;
     CapsuleCollider2D myCapsuleCollider;
-    BoxCollider2D myFeet;
     SpriteRenderer mySprite;
 
     void Awake()
@@ -41,7 +40,6 @@ public class Player : MonoBehaviour
         myRigidBody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         myCapsuleCollider = GetComponent<CapsuleCollider2D>();
-        myFeet = GetComponentInChildren<BoxCollider2D>();
         mySprite = GetComponent<SpriteRenderer>();
 
         currentHealth = startingHealth;
@@ -118,6 +116,7 @@ public class Player : MonoBehaviour
                 myAnimator.SetTrigger("die");
                 myRigidBody.velocity = new Vector2(0,0);
                 GetComponent<Player>().enabled = false;
+                FindObjectOfType<GameSession>().ResetGameSession();
                 dead = true;
             }
         }

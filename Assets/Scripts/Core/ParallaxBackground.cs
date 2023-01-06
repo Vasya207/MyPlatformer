@@ -7,6 +7,7 @@ public class ParallaxBackground : MonoBehaviour
     [SerializeField] Vector2 parallaxEffectMultiplier;
     [SerializeField] bool infiniteHorizontal;
     [SerializeField] bool infiniteVertical;
+    [SerializeField] bool cloudsEffect;
     
     Transform cameraTransform;
     Vector3 lastCameraPosition;
@@ -45,6 +46,11 @@ public class ParallaxBackground : MonoBehaviour
                 float offsetPositionY = (cameraTransform.position.y - transform.position.y) % textureUnitSizeY;
                 transform.position = new Vector3(transform.position.x, cameraTransform.position.y + offsetPositionY);
             }
+        }
+
+        if (cloudsEffect)
+        {
+            transform.position -= new Vector3(1f, 0f, 0f) * Time.deltaTime;
         }
     }
 }
