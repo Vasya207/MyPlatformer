@@ -74,7 +74,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1687379377
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 437479229, guid: d97911e19d9487d45a8efcb428193230, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -149,9 +149,12 @@ MonoBehaviour:
   range: 1.4
   hitDamage: 1
   collisionDamage: 1
-  startingHealth: 10
+  startingHealth: 6
   colliderDistance: 0.61
   boxCollider: {fileID: 4133449976684634803}
   playerLayer:
     serializedVersion: 2
     m_Bits: 512
+  attackSound: {fileID: 8300000, guid: ff5b7f210a8a58b42add3e2d0b464f12, type: 3}
+  hurtSound: {fileID: 8300000, guid: a6d8b02e54a9a484e899f9bcfe77c2d3, type: 3}
+  deathSound: {fileID: 8300000, guid: a564e523779a74949bcad47bdf281e12, type: 3}

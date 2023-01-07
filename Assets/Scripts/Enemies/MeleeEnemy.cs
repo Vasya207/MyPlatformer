@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class MeleeEnemy : MonoBehaviour
 {
-    [Header ("Attack Parameters")]
+    [Header("Attack Parameters")]
     [SerializeField] float attackCooldown;
     [SerializeField] float range;
     [SerializeField] int hitDamage;
@@ -13,12 +13,17 @@ public class MeleeEnemy : MonoBehaviour
     [Header("Health Components")]
     [SerializeField] float startingHealth;
 
-    [Header ("Collider Parameters")]
+    [Header("Collider Parameters")]
     [SerializeField] float colliderDistance;
     [SerializeField] BoxCollider2D boxCollider;
 
-    [Header ("Player Layer")]
+    [Header("Player Layer")]
     [SerializeField] LayerMask playerLayer;
+
+    [Header("SFX")]
+    [SerializeField] AudioClip attackSound;
+    [SerializeField] AudioClip hurtSound;
+    [SerializeField] AudioClip deathSound;
 
     public bool dead { get; private set; }
     private float cooldownTimer = Mathf.Infinity;
@@ -39,12 +44,13 @@ public class MeleeEnemy : MonoBehaviour
     {
         cooldownTimer += Time.deltaTime;
 
-        if (PlayerInSight())
+        if (PlayerInSight() && player.currentHealth > 0)
         {
             if (cooldownTimer >= attackCooldown)
             {
                 cooldownTimer = 0f;
                 myAnimator.SetTrigger("meleeAttack");
+                SoundManager.instance.PlaySound(attackSound);
             }
         }
 
@@ -106,6 +112,7 @@ public class MeleeEnemy : MonoBehaviour
         if (currentHealth > 0)
         {
             myAnimator.SetTrigger("hurt");
+            SoundManager.instance.PlaySound(hurtSound);
         }
         else
         {
@@ -117,6 +124,8 @@ public class MeleeEnemy : MonoBehaviour
                 GetComponentInParent<EnemiePatrol>().enabled = false;
                 transform.position = new Vector2(transform.position.x, transform.position.y - 0.3f);
                 dead = true;
+
+                SoundManager.instance.PlaySound(deathSound);
             }
         }
     }

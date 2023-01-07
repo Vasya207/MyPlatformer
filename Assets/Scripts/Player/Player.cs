@@ -25,6 +25,11 @@ public class Player : MonoBehaviour
     [SerializeField] float iFramesDuration;
     [SerializeField] float numberOfFlashes;
 
+    [Header("SFX")]
+    [SerializeField] AudioClip arrowSound;
+    [SerializeField] AudioClip hurtSound;
+    [SerializeField] AudioClip deathSound;
+
     public bool dead { get; private set; }
     Vector2 moveInput;
     public float currentHealth { get; private set; }
@@ -45,6 +50,15 @@ public class Player : MonoBehaviour
         currentHealth = startingHealth;
     }
 
+    private void FixedUpdate()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            Jump();
+        }
+            
+    }
+
     void Update()
     {
         Run();
@@ -53,9 +67,6 @@ public class Player : MonoBehaviour
         cooldownTimer += Time.deltaTime;
 
         myAnimator.SetBool("grounded", isGrounded());
-
-        if (Input.GetKey(KeyCode.Space))
-            Jump();
     }
 
     private void Jump()
@@ -76,6 +87,7 @@ public class Player : MonoBehaviour
     {
         if (cooldownTimer > attackCooldown && canAttack())
         {
+            SoundManager.instance.PlaySound(arrowSound);
             myAnimator.SetTrigger("shoot");
             cooldownTimer = 0;
 
@@ -107,6 +119,7 @@ public class Player : MonoBehaviour
         if (currentHealth > 0)
         {
             myAnimator.SetTrigger("hurt");
+            SoundManager.instance.PlaySound(hurtSound);
             StartCoroutine(Invunerability());
         }
         else
@@ -118,6 +131,8 @@ public class Player : MonoBehaviour
                 GetComponent<Player>().enabled = false;
                 FindObjectOfType<GameSession>().ResetGameSession();
                 dead = true;
+
+                SoundManager.instance.PlaySound(deathSound);
             }
         }
     }

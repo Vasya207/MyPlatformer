@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] AudioClip collectSound;
+    [SerializeField] int pointsForCoinPickup = 50;
 
-    // Update is called once per frame
-    void Update()
+    bool wasCollected = false;
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if(collision.tag == "Player" && !wasCollected)
+        {
+            SoundManager.instance.PlaySound(collectSound);
+            FindObjectOfType<GameSession>().AddToScore(pointsForCoinPickup);
+            wasCollected = true;
+            Destroy(gameObject);
+        }
     }
 }
