@@ -56,7 +56,6 @@ public class Player : MonoBehaviour
         {
             Jump();
         }
-            
     }
 
     void Update()
