@@ -39,13 +39,15 @@ public class Player : MonoBehaviour
     Rigidbody2D myRigidBody;
     CapsuleCollider2D myCapsuleCollider;
     SpriteRenderer mySprite;
-
+    UIManager myUIManager;
+    
     void Awake()
     {
         myRigidBody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         myCapsuleCollider = GetComponent<CapsuleCollider2D>();
         mySprite = GetComponent<SpriteRenderer>();
+        myUIManager = FindObjectOfType<UIManager>();
 
         currentHealth = startingHealth;
     }
@@ -84,7 +86,7 @@ public class Player : MonoBehaviour
 
     void OnFire(InputValue value)
     {
-        if (cooldownTimer > attackCooldown && canAttack())
+        if (cooldownTimer > attackCooldown && canAttack() && !dead)
         {
             SoundManager.instance.PlaySound(arrowSound);
             myAnimator.SetTrigger("shoot");
@@ -128,12 +130,19 @@ public class Player : MonoBehaviour
                 myAnimator.SetTrigger("die");
                 myRigidBody.velocity = new Vector2(0,0);
                 GetComponent<Player>().enabled = false;
-                FindObjectOfType<GameSession>().ResetGameSession();
+                //FindObjectOfType<GameSession>().ResetGameSession();
                 dead = true;
 
-                SoundManager.instance.PlaySound(deathSound);
+                //SoundManager.instance.PlaySound(deathSound);
+                StartCoroutine(OpenGameOverScreen());
             }
         }
+    }
+
+    private IEnumerator OpenGameOverScreen()
+    {
+        yield return new WaitForSeconds(1);
+        myUIManager.GameOver();
     }
 
     private bool isGrounded()
