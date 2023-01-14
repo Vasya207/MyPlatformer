@@ -187,4 +187,5 @@ public class Player : MonoBehaviour
     {
         return myRigidBody.velocity == new Vector2(0, 0) && isGrounded();
     }
+
 }

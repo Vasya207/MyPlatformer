@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4892898970618833786}
   - component: {fileID: 4892898970618833669}
   m_Layer: 12
-  m_Name: Spikes
+  m_Name: Spikes - Copy
   m_TagString: Spikes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
