@@ -52,14 +52,6 @@ public class Player : MonoBehaviour
         currentHealth = startingHealth;
     }
 
-    private void FixedUpdate()
-    {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            Jump();
-        }
-    }
-
     void Update()
     {
         Run();
@@ -70,15 +62,6 @@ public class Player : MonoBehaviour
         myAnimator.SetBool("grounded", isGrounded());
     }
 
-    private void Jump()
-    {
-        if (isGrounded())
-        {
-            myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, jumpSpeed);
-            myAnimator.SetTrigger("isJumping");
-        }
-    }
-
     void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
@@ -86,7 +69,7 @@ public class Player : MonoBehaviour
 
     void OnFire(InputValue value)
     {
-        if (cooldownTimer > attackCooldown && canAttack() && !dead)
+        if (cooldownTimer > attackCooldown && CanAttack() && !dead)
         {
             SoundManager.instance.PlaySound(arrowSound);
             myAnimator.SetTrigger("shoot");
@@ -94,6 +77,16 @@ public class Player : MonoBehaviour
 
             arrows[FindArrow()].transform.position = firePoint.position;
             arrows[FindArrow()].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
+        }
+    }
+
+    void OnJump(InputValue value)
+    {
+        if (isGrounded())
+        {
+            myAnimator.SetBool("grounded", false);
+            myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, jumpSpeed);
+            myAnimator.SetTrigger("isJumping");
         }
     }
 
@@ -133,7 +126,7 @@ public class Player : MonoBehaviour
                 //FindObjectOfType<GameSession>().ResetGameSession();
                 dead = true;
 
-                //SoundManager.instance.PlaySound(deathSound);
+                SoundManager.instance.PlaySound(deathSound);
                 StartCoroutine(OpenGameOverScreen());
             }
         }
@@ -148,7 +141,7 @@ public class Player : MonoBehaviour
     private bool isGrounded()
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(myCapsuleCollider.bounds.center, 
-            new Vector2(myCapsuleCollider.bounds.size.x - 0.2f, myCapsuleCollider.bounds.size.y - 0.2f),
+            new Vector2(myCapsuleCollider.bounds.size.x, myCapsuleCollider.bounds.size.y - 0.2f),
             0, Vector2.down, 0.1f, groundLayer);
         return raycastHit.collider != null;
     }
@@ -183,7 +176,7 @@ public class Player : MonoBehaviour
         return 0;
     }
 
-    public bool canAttack()
+    public bool CanAttack()
     {
         return myRigidBody.velocity == new Vector2(0, 0) && isGrounded();
     }

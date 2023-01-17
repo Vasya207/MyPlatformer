@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Collections;
+using UnityEngine.InputSystem;
 using System.Collections;
 
 public class UIManager : MonoBehaviour
@@ -13,22 +14,29 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject pauseScreen;
 
     GameSession gameSessionControl;
+    PlayerInput playerInput;
 
     private void Awake()
     {
         gameSessionControl = GetComponentInParent<GameSession>();
         gameOverScreen.SetActive(false);
         pauseScreen.SetActive(false);
+        playerInput = FindObjectOfType<PlayerInput>();
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(pauseScreen.activeInHierarchy)
-                pauseScreen.SetActive(false);
+            if (pauseScreen.activeInHierarchy)
+            {
+                PauseGame(false);
+            }
+
             else
-                pauseScreen.SetActive(true);
+            {
+                PauseGame(true);
+            }
         }
     }
 
@@ -68,11 +76,20 @@ public class UIManager : MonoBehaviour
     public void PauseGame(bool status)
     {
         pauseScreen.SetActive(status);
+        if(playerInput != null)
+        {
+            playerInput.enabled = !status;
+        }
 
         if (status)
+        {
             Time.timeScale = 0;
+        }
+
         else
+        {
             Time.timeScale = 1;
+        }
     }
 
     public void SoundVolume()

@@ -31643,6 +31643,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1764938674685180444, guid: cbe11f0f1bb188e4f8c0282bc2cd7d75, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1764938674690779501, guid: cbe11f0f1bb188e4f8c0282bc2cd7d75, type: 3}
       propertyPath: player
       value: 
@@ -31694,6 +31698,10 @@ PrefabInstance:
     - target: {fileID: 1764938674707891403, guid: cbe11f0f1bb188e4f8c0282bc2cd7d75, type: 3}
       propertyPath: m_Name
       value: Game Session
+      objectReference: {fileID: 0}
+    - target: {fileID: 1764938675847439465, guid: cbe11f0f1bb188e4f8c0282bc2cd7d75, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbe11f0f1bb188e4f8c0282bc2cd7d75, type: 3}
@@ -47748,6 +47756,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8509882959068976238, guid: 9d4f65efdd134964993139669e826898, type: 3}
+      propertyPath: deathSound
+      value: 
+      objectReference: {fileID: 8300000, guid: a6d8b02e54a9a484e899f9bcfe77c2d3, type: 3}
     - target: {fileID: 8509882959068976238, guid: 9d4f65efdd134964993139669e826898, type: 3}
       propertyPath: arrows.Array.data[0]
       value: 
