@@ -3599,7 +3599,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      TX Village Props Barrel: 21300008
+      TX Village Props Fence A Pillar A: 21300024
       TX Village Props Spike: 21300228
       TX Village Props Clother Hanger Rope A: 21300234
       TX Village Props Fence B Rail: 21300040
@@ -3740,7 +3740,7 @@ TextureImporter:
       TX Village Props Heavy Sword: 21300168
       TX Village Props Archert Target: 21300154
       TX Village Props Grass E: 21300104
-      TX Village Props Fence A Pillar A: 21300024
+      TX Village Props Barrel: 21300008
       TX Village Props Road Sign Text C: 21300050
       TX Village Props Platform S: 21300216
   spritePackingTag: 

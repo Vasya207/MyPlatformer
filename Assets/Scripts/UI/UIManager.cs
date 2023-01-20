@@ -58,6 +58,7 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.LoadScene(0);
         gameSessionControl.ResetGameSession();
+        PauseGame(false);
     }
 
     public void Quit()

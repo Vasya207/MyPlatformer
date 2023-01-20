@@ -40,6 +40,7 @@ public class Player : MonoBehaviour
     CapsuleCollider2D myCapsuleCollider;
     SpriteRenderer mySprite;
     UIManager myUIManager;
+    PlayerInput playerInput;
     
     void Awake()
     {
@@ -48,6 +49,7 @@ public class Player : MonoBehaviour
         myCapsuleCollider = GetComponent<CapsuleCollider2D>();
         mySprite = GetComponent<SpriteRenderer>();
         myUIManager = FindObjectOfType<UIManager>();
+        playerInput = FindObjectOfType<PlayerInput>();
 
         currentHealth = startingHealth;
     }
@@ -123,7 +125,10 @@ public class Player : MonoBehaviour
                 myAnimator.SetTrigger("die");
                 myRigidBody.velocity = new Vector2(0,0);
                 GetComponent<Player>().enabled = false;
-                //FindObjectOfType<GameSession>().ResetGameSession();
+                if (playerInput != null)
+                {
+                    playerInput.enabled = false;
+                }
                 dead = true;
 
                 SoundManager.instance.PlaySound(deathSound);
