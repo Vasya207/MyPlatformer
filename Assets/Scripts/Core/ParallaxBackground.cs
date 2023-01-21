@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class ParallaxBackground : MonoBehaviour
@@ -8,6 +9,7 @@ public class ParallaxBackground : MonoBehaviour
     [SerializeField] bool infiniteHorizontal;
     [SerializeField] bool infiniteVertical;
     [SerializeField] bool cloudsEffect;
+    [SerializeField] float movingSpeed;
     
     Transform cameraTransform;
     Vector3 lastCameraPosition;
@@ -50,7 +52,7 @@ public class ParallaxBackground : MonoBehaviour
 
         if (cloudsEffect)
         {
-            transform.position -= new Vector3(1f, 0f, 0f) * Time.deltaTime;
+            transform.position -= new Vector3(movingSpeed, 0f, 0f) * Time.deltaTime;
         }
     }
 }
