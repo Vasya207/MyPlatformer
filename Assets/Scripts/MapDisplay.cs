@@ -10,6 +10,7 @@ public class MapDisplay : MonoBehaviour
     [SerializeField] private Image backgroundImage;
     [SerializeField] private Button playButton;
     [SerializeField] private GameObject lockIcon;
+
     public void DisplayMap(Map _map)
     {
         levelNumber.text = _map.levelNumber;
@@ -33,7 +34,9 @@ public class MapDisplay : MonoBehaviour
             backgroundImage.color = Color.grey;
             levelNumber.color = Color.grey;
             levelDescription.color = Color.grey;
-            playButtonText.color = Color.grey;
+
+            var c = new Color(1f, 1f, 1f, 0.5f);
+            playButtonText.color = c;
         }
 
         playButton.onClick.RemoveAllListeners();

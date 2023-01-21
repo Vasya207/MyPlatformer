@@ -16,7 +16,7 @@ public class ScriptableObjectsChanger : MonoBehaviour
 
         if (currentIndex < 0) currentIndex = scriptableObjects.Length - 1;
         else if (currentIndex > scriptableObjects.Length - 1) currentIndex = 0;
-
-        if(mapDisplay != null) mapDisplay.DisplayMap((Map)scriptableObjects[currentIndex]);
+        
+        if (mapDisplay != null) mapDisplay.DisplayMap((Map)scriptableObjects[currentIndex]);
     }
 }
