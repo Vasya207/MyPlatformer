@@ -22,7 +22,6 @@ public class ChestLogic : MonoBehaviour
     public void OpenTheChest()
     {
         FindObjectOfType<GameSession>().AddToScore(coinsInChest);
-        FindObjectOfType<CornerParticles>().PlayParticles();
         myAnimator.enabled = true;
         myBoxCollider.enabled = false;
         myParticleSystem.enableEmission = false;
