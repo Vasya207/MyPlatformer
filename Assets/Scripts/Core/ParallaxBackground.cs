@@ -8,7 +8,7 @@ public class ParallaxBackground : MonoBehaviour
     [SerializeField] Vector2 parallaxEffectMultiplier;
     [SerializeField] bool infiniteHorizontal;
     [SerializeField] bool infiniteVertical;
-    [SerializeField] bool cloudsEffect;
+    [SerializeField] bool menuEffect;
     [SerializeField] float movingSpeed;
     
     Transform cameraTransform;
@@ -50,9 +50,10 @@ public class ParallaxBackground : MonoBehaviour
             }
         }
 
-        if (cloudsEffect)
+        if (menuEffect)
         {
             transform.position -= new Vector3(movingSpeed, 0f, 0f) * Time.deltaTime;
         }
+
     }
 }

@@ -367,6 +367,10 @@ PrefabInstance:
       value: Main Camera
       objectReference: {fileID: 0}
     - target: {fileID: 3276690890714094331, guid: 6f12a78888f0cd344a77fe51e089f92c, type: 3}
+      propertyPath: menuEffect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3276690890714094331, guid: 6f12a78888f0cd344a77fe51e089f92c, type: 3}
       propertyPath: movingSpeed
       value: 2
       objectReference: {fileID: 0}
@@ -383,6 +387,10 @@ PrefabInstance:
       value: -2.5
       objectReference: {fileID: 0}
     - target: {fileID: 3276690891427461050, guid: 6f12a78888f0cd344a77fe51e089f92c, type: 3}
+      propertyPath: menuEffect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3276690891427461050, guid: 6f12a78888f0cd344a77fe51e089f92c, type: 3}
       propertyPath: movingSpeed
       value: 1
       objectReference: {fileID: 0}
@@ -397,6 +405,10 @@ PrefabInstance:
     - target: {fileID: 3276690891427461051, guid: 6f12a78888f0cd344a77fe51e089f92c, type: 3}
       propertyPath: m_LocalPosition.y
       value: -2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3276690891898319635, guid: 6f12a78888f0cd344a77fe51e089f92c, type: 3}
+      propertyPath: menuEffect
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3276690891898319635, guid: 6f12a78888f0cd344a77fe51e089f92c, type: 3}
       propertyPath: movingSpeed

@@ -29,6 +29,7 @@ public class MeleeEnemy : MonoBehaviour
     private float cooldownTimer = Mathf.Infinity;
     private float currentHealth;
 
+    ParticleSystem bloodParticles;
     Animator myAnimator;
     EnemiePatrol enemyPatrol;
     Player player;
@@ -38,6 +39,7 @@ public class MeleeEnemy : MonoBehaviour
         currentHealth = startingHealth;
         myAnimator = GetComponent<Animator>();
         enemyPatrol = GetComponentInParent<EnemiePatrol>();
+        bloodParticles = GetComponentInChildren<ParticleSystem>();
     }
 
     void Update()
@@ -108,6 +110,7 @@ public class MeleeEnemy : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, startingHealth);
+        bloodParticles.Play();
 
         if (currentHealth > 0)
         {

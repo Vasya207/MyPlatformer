@@ -20,7 +20,6 @@ public class Projectile : MonoBehaviour
         if (hit)
         {
             lifeTime += Time.deltaTime;
-            //Debug.Log(lifeTime);
 
             if (lifeTime > 2)
             {
@@ -49,13 +48,13 @@ public class Projectile : MonoBehaviour
             collision.GetComponent<MeleeEnemy>().TakeDamage(1);
         }
 
-        else if(collision.tag == "Chest")
+        /*else if(collision.tag == "Chest")
         {
             collision.GetComponent<ChestLogic>().OpenTheChest();
             hit = true;
             //gameObject.SetActive(false);
             myCollider.enabled = false;
-        }
+        }*/
     }
 
     public void SetDirection(float _direction)
