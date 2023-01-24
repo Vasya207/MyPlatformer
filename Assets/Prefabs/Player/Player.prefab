@@ -226,7 +226,7 @@ MonoBehaviour:
   startingHealth: 3
   moveSpeed: 7
   jumpSpeed: 20
-  attackCooldown: 0.5
+  attackCooldown: 0.8
   firePoint: {fileID: 8509882959542139797}
   arrows:
   - {fileID: 0}
@@ -278,7 +278,7 @@ MonoBehaviour:
   attackPoint: {fileID: 3828002154897552916}
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 2304
   hitAudio: {fileID: 8300000, guid: 756acaefab5dfac449725e8462f69093, type: 3}
   swordWavingAudio: {fileID: 8300000, guid: 245cddffafee5094a8f99607e65bd2ad, type: 3}
 --- !u!1 &8509882959542139796

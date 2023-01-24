@@ -339,7 +339,7 @@ MonoBehaviour:
   parallaxEffectMultiplier: {x: 0.3, y: 0.4}
   infiniteHorizontal: 1
   infiniteVertical: 0
-  cloudsEffect: 0
+  menuEffect: 0
   movingSpeed: 0
 --- !u!1 &3276690891427461053
 GameObject:
@@ -441,7 +441,7 @@ MonoBehaviour:
   parallaxEffectMultiplier: {x: 0.1, y: 0.25}
   infiniteHorizontal: 1
   infiniteVertical: 0
-  cloudsEffect: 0
+  menuEffect: 0
   movingSpeed: 0
 --- !u!1 &3276690891898319637
 GameObject:
@@ -543,5 +543,5 @@ MonoBehaviour:
   parallaxEffectMultiplier: {x: 0.5, y: 0.5}
   infiniteHorizontal: 1
   infiniteVertical: 1
-  cloudsEffect: 1
+  menuEffect: 1
   movingSpeed: 0
