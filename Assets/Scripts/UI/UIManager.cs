@@ -10,23 +10,30 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject gameOverScreen;
     [SerializeField] AudioClip gameOverSound;
 
+    [Header("Win Screen")]
+    [SerializeField] GameObject winScreen;
+    [SerializeField] AudioClip winSound;
+
     [Header("Pause")]
     [SerializeField] GameObject pauseScreen;
 
     GameSession gameSessionControl;
     PlayerInput playerInput;
+    Player player;
 
     private void Awake()
     {
         gameSessionControl = GetComponentInParent<GameSession>();
         gameOverScreen.SetActive(false);
+        winScreen.SetActive(false);
         pauseScreen.SetActive(false);
         playerInput = FindObjectOfType<PlayerInput>();
+        player = FindObjectOfType<Player>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !player.dead)
         {
             if (pauseScreen.activeInHierarchy)
             {
@@ -46,6 +53,18 @@ public class UIManager : MonoBehaviour
     {
         gameOverScreen.SetActive(true);
         SoundManager.instance.PlaySound(gameOverSound);
+    }
+
+    public void ActivateWinScreen()
+    {
+        winScreen.SetActive(true);
+        SoundManager.instance.PlaySound(winSound);
+    }
+
+    public void LoadNextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        gameSessionControl.ResetGameSession();
     }
 
     public void Restart()

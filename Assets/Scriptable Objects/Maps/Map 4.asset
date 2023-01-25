@@ -16,4 +16,4 @@ MonoBehaviour:
   levelNumber: LEVEL 4
   levelDescription: Your goal here is to collect as many coins as possible and to
     find the way out (It's located on the top of the level).
-  sceneToLoad: {fileID: 102900000, guid: ba3fbca41f67918488f8432c9fbd0c3b, type: 3}
+  sceneToLoad: {fileID: 102900000, guid: b66d51d97b70e7043b2a0f57b63c9ee4, type: 3}

@@ -585,6 +585,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 664394166eaf1424c8eb6e4b37d406f3, type: 2}
   - {fileID: 11400000, guid: 41fd4a3e84626b54dba86af63dd4e1a8, type: 2}
   - {fileID: 11400000, guid: 91a8b996a4eb2ca40b3dd1650a258e34, type: 2}
+  - {fileID: 11400000, guid: 13e9f902a83c52c46aa7c1ef7123640c, type: 2}
   mapDisplay: {fileID: 1108000649}
 --- !u!1001 &571903003
 PrefabInstance:
