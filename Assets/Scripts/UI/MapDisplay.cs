@@ -10,6 +10,7 @@ public class MapDisplay : MonoBehaviour
     [SerializeField] private Image backgroundImage;
     [SerializeField] private Button playButton;
     [SerializeField] private GameObject lockIcon;
+    [SerializeField] private UIMenuManager menuUI;
 
     public void DisplayMap(Map _map)
     {
@@ -41,10 +42,5 @@ public class MapDisplay : MonoBehaviour
 
         playButton.onClick.RemoveAllListeners();
         playButton.onClick.AddListener(() => SceneManager.LoadScene(_map.sceneToLoad.name));
-    }
-
-    public void LoadMainMenu()
-    {
-        SceneManager.LoadScene(0);
     }
 }

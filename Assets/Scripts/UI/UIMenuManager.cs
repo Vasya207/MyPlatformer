@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 public class UIMenuManager : MonoBehaviour
 {
     [SerializeField] AudioClip switchSound;
+    [SerializeField] GameObject mainMenu;
+    [SerializeField] GameObject levelSelection;
     public void Quit()
     {
         SoundManager.instance.PlaySound(switchSound);
@@ -14,10 +16,18 @@ public class UIMenuManager : MonoBehaviour
         #endif
     }
 
+    public void LoadMainMenu()
+    {
+        PlaySwitchSound();
+        mainMenu.SetActive(true);
+        levelSelection.SetActive(false);
+    }
+
     public void LoadNextScene()
     {
         PlaySwitchSound();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        mainMenu.SetActive(false);
+        levelSelection.SetActive(true);
     }
 
     public void SoundVolume()

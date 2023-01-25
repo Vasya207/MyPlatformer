@@ -1,21 +1,27 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class FinishLelvel : MonoBehaviour
 {
-    GameSession gameSession;
+    UIManager _UIManager;
+    PlayerInput playerInput;
     private void Awake()
     {
-        gameSession = FindObjectOfType<GameSession>();
+        _UIManager = FindObjectOfType<UIManager>();
+        playerInput = FindObjectOfType<PlayerInput>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Player")
         {
             PlayerPrefs.SetInt("currentScene", PlayerPrefs.GetInt("currentScene") + 1);
-            SceneManager.LoadScene(1);
+            if(playerInput != null)
+            {
+                playerInput.enabled = false;
+            }
 
-            gameSession.ResetGameSession();
+            _UIManager.ActivateWinScreen();
         }
     }
 }
