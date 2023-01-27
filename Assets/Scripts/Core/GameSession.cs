@@ -7,7 +7,8 @@ using TMPro;
 public class GameSession : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI scoreText;
-    [SerializeField] public int score { get; private set; } = 0;
+    [SerializeField] public int score = 0;
+    public int generalScore { get; private set; }
 
     void Awake()
     {
@@ -20,6 +21,8 @@ public class GameSession : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
+
+        ScoreManager();
     }
 
     private void Start()
@@ -36,5 +39,29 @@ public class GameSession : MonoBehaviour
     public void ResetGameSession()
     {
         Destroy(gameObject);
+    }
+
+    private void ScoreManager()
+    {
+        generalScore = 0;
+
+        Coin[] coinScore = FindObjectsOfType<Coin>();
+        ChestLogic[] chestScore = FindObjectsOfType<ChestLogic>();
+        MeleeEnemy[] enemyScore = FindObjectsOfType<MeleeEnemy>();
+
+        foreach (Coin coin in coinScore)
+        {
+            generalScore += coin.pointsForCoinPickup;
+        }
+        foreach (ChestLogic chest in chestScore)
+        {
+            generalScore += chest.coinsInChest;
+        }
+        foreach (MeleeEnemy enemy in enemyScore)
+        {
+            generalScore += enemy.rewardForKill;
+        }
+
+        Debug.Log(generalScore);
     }
 }

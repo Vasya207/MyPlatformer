@@ -6,6 +6,12 @@ public class UIMenuManager : MonoBehaviour
     [SerializeField] AudioClip switchSound;
     [SerializeField] GameObject mainMenu;
     [SerializeField] GameObject levelSelection;
+
+    private void Awake()
+    {
+        levelSelection.SetActive(false);
+        mainMenu.SetActive(true);
+    }
     public void Quit()
     {
         SoundManager.instance.PlaySound(switchSound);

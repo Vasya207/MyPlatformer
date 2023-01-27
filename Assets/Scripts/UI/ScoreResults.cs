@@ -8,7 +8,7 @@ public class ScoreResults : MonoBehaviour
     {
         gameSession = GetComponentInParent<GameSession>();
 
-        string scoreText = "YOU'VE SCORED " + gameSession.score;
+        string scoreText = "YOU'VE SCORED " + gameSession.score + "/" + gameSession.generalScore;
 
         gameObject.GetComponent<Text>().text = scoreText;
     }

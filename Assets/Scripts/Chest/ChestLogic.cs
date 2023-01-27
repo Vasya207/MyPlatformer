@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ChestLogic : MonoBehaviour
 {
-    [SerializeField] int coinsInChest;
+    [SerializeField] public int coinsInChest;
     [SerializeField] AudioClip openSound;
     Animator myAnimator;
     BoxCollider2D myBoxCollider;

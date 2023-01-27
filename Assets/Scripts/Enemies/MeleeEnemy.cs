@@ -12,7 +12,7 @@ public class MeleeEnemy : MonoBehaviour
 
     [Header("Health Components")]
     [SerializeField] float startingHealth;
-    [SerializeField] int rewardForKill;
+    [SerializeField] public int rewardForKill;
 
     [Header("Collider Parameters")]
     [SerializeField] float colliderDistance;

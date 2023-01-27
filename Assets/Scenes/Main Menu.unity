@@ -1236,7 +1236,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 653374887}
         m_TargetAssemblyTypeName: UIMenuManager, Assembly-CSharp
         m_MethodName: PlaySwitchSound
         m_Mode: 1
@@ -2789,7 +2789,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 653374887}
         m_TargetAssemblyTypeName: UIMenuManager, Assembly-CSharp
         m_MethodName: PlaySwitchSound
         m_Mode: 1
