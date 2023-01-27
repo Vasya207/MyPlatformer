@@ -151,6 +151,7 @@ MonoBehaviour:
   hitDamage: 1
   collisionDamage: 1
   startingHealth: 6
+  rewardForKill: 150
   colliderDistance: 0.85
   boxCollider: {fileID: 4133449976684634803}
   playerLayer:

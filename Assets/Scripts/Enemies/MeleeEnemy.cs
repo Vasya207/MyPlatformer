@@ -12,6 +12,7 @@ public class MeleeEnemy : MonoBehaviour
 
     [Header("Health Components")]
     [SerializeField] float startingHealth;
+    [SerializeField] int rewardForKill;
 
     [Header("Collider Parameters")]
     [SerializeField] float colliderDistance;
@@ -129,6 +130,8 @@ public class MeleeEnemy : MonoBehaviour
                 dead = true;
 
                 SoundManager.instance.PlaySound(deathSound);
+
+                FindObjectOfType<GameSession>().AddToScore(rewardForKill);
             }
         }
     }

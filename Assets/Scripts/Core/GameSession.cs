@@ -7,7 +7,7 @@ using TMPro;
 public class GameSession : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI scoreText;
-    [SerializeField] int score = 0;
+    [SerializeField] public int score { get; private set; } = 0;
 
     void Awake()
     {
