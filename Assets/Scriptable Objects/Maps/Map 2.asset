@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapIndex: 1
   levelNumber: LEVEL 2
-  levelDescription: This level is bigger than previous and introduces to you the
-    dungeon.
+  levelDescription: THIS LEVEL IS LOCKED
   sceneToLoad: {fileID: 102900000, guid: bb974cc95436b5a48930fe7f917f6882, type: 3}

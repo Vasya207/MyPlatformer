@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapIndex: 2
   levelNumber: LEVEL 3
-  levelDescription: Your goal here is to collect as many coins as possible and to
-    find the way out (It's located on the top of the level).
+  levelDescription: THIS LEVEL IS LOCKED
   sceneToLoad: {fileID: 102900000, guid: 6e2db1dca4d9efb43a100476b23a12a7, type: 3}
