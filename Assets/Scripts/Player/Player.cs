@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
     SpriteRenderer mySprite;
     UIManager myUIManager;
     PlayerInput playerInput;
+    PlayerCombat playerCombat;
     
     void Awake()
     {
@@ -50,6 +51,7 @@ public class Player : MonoBehaviour
         mySprite = GetComponent<SpriteRenderer>();
         myUIManager = FindObjectOfType<UIManager>();
         playerInput = FindObjectOfType<PlayerInput>();
+        playerCombat = FindObjectOfType<PlayerCombat>();
 
         currentHealth = startingHealth;
     }
@@ -71,7 +73,7 @@ public class Player : MonoBehaviour
 
     void OnFire(InputValue value)
     {
-        if (cooldownTimer > attackCooldown && CanAttack() && !dead)
+        if (CanAttack() && playerCombat.AttackFinished())
         {
             SoundManager.instance.PlaySound(arrowSound);
             myAnimator.SetTrigger("shoot");
@@ -99,51 +101,13 @@ public class Player : MonoBehaviour
         myAnimator.SetBool("isRunning", playerHasHorizontalSpeed);
     }
 
-    public void FlipSprite()
-    {
-        bool playerHasHorizontalSpeed = Mathf.Abs(myRigidBody.velocity.x) > Mathf.Epsilon; 
-        if (playerHasHorizontalSpeed) 
-        {
-            transform.localScale = new Vector2(Mathf.Sign(myRigidBody.velocity.x), 1f);
-        }
-    }
-
-    public void TakeDamage(float damage)
-    {
-        currentHealth = Mathf.Clamp(currentHealth - damage, 0, startingHealth);
-
-        if (currentHealth > 0)
-        {
-            myAnimator.SetTrigger("hurt");
-            SoundManager.instance.PlaySound(hurtSound);
-            StartCoroutine(Invunerability());
-        }
-        else
-        {
-            if (!dead)
-            {
-                myAnimator.SetTrigger("die");
-                myRigidBody.velocity = new Vector2(0,0);
-                GetComponent<Player>().enabled = false;
-                if (playerInput != null)
-                {
-                    playerInput.enabled = false;
-                }
-                dead = true;
-
-                SoundManager.instance.PlaySound(deathSound);
-                StartCoroutine(OpenGameOverScreen());
-            }
-        }
-    }
-
-    private IEnumerator OpenGameOverScreen()
+    IEnumerator OpenGameOverScreen()
     {
         yield return new WaitForSeconds(1);
         myUIManager.GameOver();
     }
 
-    private bool isGrounded()
+    bool isGrounded()
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(myCapsuleCollider.bounds.center, 
             new Vector2(myCapsuleCollider.bounds.size.x, myCapsuleCollider.bounds.size.y - 0.2f),
@@ -151,12 +115,7 @@ public class Player : MonoBehaviour
         return raycastHit.collider != null;
     }
 
-    public void AddHealth(float value)
-    {
-        currentHealth = Mathf.Clamp(currentHealth + value, 0, startingHealth);
-    }
-
-    private IEnumerator Invunerability()
+    IEnumerator Invunerability()
     {
         Physics2D.IgnoreLayerCollision(9, 11, true);
         for (int i = 0; i < numberOfFlashes; i++)
@@ -183,6 +142,52 @@ public class Player : MonoBehaviour
 
     public bool CanAttack()
     {
-        return myRigidBody.velocity == new Vector2(0, 0) && isGrounded();
+        return myRigidBody.velocity == new Vector2(0, 0) 
+            && isGrounded() 
+            && !dead 
+            && cooldownTimer > attackCooldown;
+    }
+
+    public void AddHealth(float value)
+    {
+        currentHealth = Mathf.Clamp(currentHealth + value, 0, startingHealth);
+    }
+
+    public void FlipSprite()
+    {
+        bool playerHasHorizontalSpeed = Mathf.Abs(myRigidBody.velocity.x) > Mathf.Epsilon;
+        if (playerHasHorizontalSpeed)
+        {
+            transform.localScale = new Vector2(Mathf.Sign(myRigidBody.velocity.x), 1f);
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        currentHealth = Mathf.Clamp(currentHealth - damage, 0, startingHealth);
+
+        if (currentHealth > 0)
+        {
+            myAnimator.SetTrigger("hurt");
+            SoundManager.instance.PlaySound(hurtSound);
+            StartCoroutine(Invunerability());
+        }
+        else
+        {
+            if (!dead)
+            {
+                myAnimator.SetTrigger("die");
+                myRigidBody.velocity = new Vector2(0, 0);
+                GetComponent<Player>().enabled = false;
+                if (playerInput != null)
+                {
+                    playerInput.enabled = false;
+                }
+                dead = true;
+
+                SoundManager.instance.PlaySound(deathSound);
+                StartCoroutine(OpenGameOverScreen());
+            }
+        }
     }
 }

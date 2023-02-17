@@ -59,6 +59,14 @@ public class UIManager : MonoBehaviour
     {
         winScreen.SetActive(true);
         SoundManager.instance.PlaySound(winSound);
+        //SaveCoinsAmount();
+    }
+
+    private void SaveCoinsAmount()
+    {
+        PlayerPrefs.SetInt(gameSessionControl.levelName, gameSessionControl.score);
+        PlayerPrefs.Save();
+        int coins = PlayerPrefs.GetInt(gameSessionControl.levelName);
     }
 
     public void LoadNextLevel()

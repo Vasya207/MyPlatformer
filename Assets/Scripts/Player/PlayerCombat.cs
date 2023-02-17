@@ -20,13 +20,13 @@ public class PlayerCombat : MonoBehaviour
     Animator myAnimator;
     Player player;
     
-    private void Awake()
+    void Awake()
     {
         myAnimator = GetComponent<Animator>();
         player = GetComponent<Player>();
     }
 
-    private void Update()
+    void Update()
     {
         cooldownTimer += Time.deltaTime;
     }
@@ -40,7 +40,7 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    private void Attack()
+    void Attack()
     {
         Collider2D[] hitObjects = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
 
@@ -60,11 +60,16 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
+    void OnDrawGizmosSelected()
     {
         if (attackPoint == null)
             return;
 
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
+
+    public bool AttackFinished()
+    {
+        return cooldownTimer > 1.2f;
     }
 }

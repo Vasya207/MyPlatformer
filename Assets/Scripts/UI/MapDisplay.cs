@@ -1,6 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MapDisplay : MonoBehaviour
 {
@@ -28,6 +28,7 @@ public class MapDisplay : MonoBehaviour
             levelNumber.color = Color.white;
             levelDescription.color = Color.white;
             playButtonText.color = Color.white;
+            SetLevelDescriptionText();
         }
 
         else
@@ -36,11 +37,26 @@ public class MapDisplay : MonoBehaviour
             levelNumber.color = Color.grey;
             levelDescription.color = Color.grey;
 
-            var c = new Color(1f, 1f, 1f, 0.5f);
-            playButtonText.color = c;
+            var transparentWhiteColor = new Color(1f, 1f, 1f, 0.5f);
+            playButtonText.color = transparentWhiteColor;
         }
 
         playButton.onClick.RemoveAllListeners();
         playButton.onClick.AddListener(() => SceneManager.LoadScene(_map.sceneToLoad.name));
+    }
+
+    void SetLevelDescriptionText()
+    {
+        string levelScore = PlayerPrefs.GetString(levelNumber.text);
+        //Debug.Log("Yes" + levelScore);
+
+        if (levelScore != null && levelScore.Length > 0)
+        {
+            levelDescription.text = levelScore;
+        }
+        else
+        {
+            levelDescription.text = "FINISH THIS LEVEL TO GET SCORE";
+        }
     }
 }

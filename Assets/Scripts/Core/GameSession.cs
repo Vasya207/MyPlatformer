@@ -7,7 +7,9 @@ using TMPro;
 public class GameSession : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI scoreText;
-    [SerializeField] public int score = 0;
+    public int score = 0;
+    public string levelName;
+
     public int generalScore { get; private set; }
 
     void Awake()
@@ -62,6 +64,6 @@ public class GameSession : MonoBehaviour
             generalScore += enemy.rewardForKill;
         }
 
-        Debug.Log(generalScore);
+        //Debug.Log(generalScore);
     }
 }

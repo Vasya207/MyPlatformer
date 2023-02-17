@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapIndex: 0
   levelNumber: LEVEL 1
-  levelDescription: Pass this level to get familiar with the game.
+  levelDescription: 'YOU''VE SCORED: 0 / 800'
   sceneToLoad: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
