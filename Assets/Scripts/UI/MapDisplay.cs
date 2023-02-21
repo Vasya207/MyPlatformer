@@ -17,7 +17,15 @@ public class MapDisplay : MonoBehaviour
         levelNumber.text = _map.levelNumber;
         levelDescription.text = _map.levelDescription;
 
-        bool mapUnlocked = PlayerPrefs.GetInt("currentScene", 0) >= _map.mapIndex;
+        bool mapUnlocked;
+        if (_map.mapIndex == 0)
+        {
+            mapUnlocked = true;
+        }
+        else
+        {
+            mapUnlocked = PlayerPrefs.GetInt("Level " + _map.mapIndex) == 1;
+        }
 
         lockIcon.SetActive(!mapUnlocked);
         playButton.interactable = mapUnlocked;

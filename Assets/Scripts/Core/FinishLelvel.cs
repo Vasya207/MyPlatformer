@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class FinishLelvel : MonoBehaviour
 {
@@ -14,7 +15,10 @@ public class FinishLelvel : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
-            PlayerPrefs.SetInt("currentScene", PlayerPrefs.GetInt("currentScene") + 1);
+            int currentScene = SceneManager.GetActiveScene().buildIndex;
+            PlayerPrefs.SetInt("Level " + currentScene, 1);
+            PlayerPrefs.Save();
+            
             if(playerInput != null)
             {
                 playerInput.enabled = false;

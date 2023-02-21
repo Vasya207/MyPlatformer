@@ -5,7 +5,7 @@ public class Map : ScriptableObject
 {
     public int mapIndex;
     public string levelNumber;
-    [TextArea(10, 20)]
+    [TextArea(3, 5)]
     public string levelDescription;
     public Object sceneToLoad;
 }
