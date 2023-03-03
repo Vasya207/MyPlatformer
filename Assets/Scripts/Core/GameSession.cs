@@ -1,69 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+using Chest;
 using TMPro;
+using UnityEngine;
 
-public class GameSession : MonoBehaviour
+namespace Core
 {
-    [SerializeField] TextMeshProUGUI scoreText;
-    public int score = 0;
-    public string levelName;
-
-    public int generalScore { get; private set; }
-
-    void Awake()
+    public class GameSession : MonoBehaviour
     {
-        int numGameSessions = FindObjectsOfType<GameSession>().Length;
-        if(numGameSessions > 1)
+        [SerializeField] private TextMeshProUGUI scoreText;
+
+        public int score;
+        public int GeneralScore { get; private set; }
+
+        private void Awake()
+        {
+            var numGameSessions = FindObjectsOfType<GameSession>().Length;
+            if (numGameSessions > 1)
+                Destroy(gameObject);
+            else
+                DontDestroyOnLoad(gameObject);
+
+            ScoreManager();
+        }
+
+        private void Start()
+        {
+            scoreText.text = score.ToString();
+        }
+
+        public void AddToScore(int pointsToAdd)
+        {
+            score += pointsToAdd;
+            scoreText.text = score.ToString();
+        }
+
+        public void ResetGameSession()
         {
             Destroy(gameObject);
         }
-        else
+
+        private void ScoreManager()
         {
-            DontDestroyOnLoad(gameObject);
+            GeneralScore = 0;
+
+            var coinScore = FindObjectsOfType<Coin.Coin>();
+            var chestScore = FindObjectsOfType<ChestLogic>();
+            var enemyScore = FindObjectsOfType<MeleeEnemy>();
+
+            foreach (var coin in coinScore) GeneralScore += coin.pointsForCoinPickup;
+
+            foreach (var chest in chestScore) GeneralScore += chest.coinsInChest;
+
+            foreach (var enemy in enemyScore) GeneralScore += enemy.rewardForKill;
         }
-
-        ScoreManager();
-    }
-
-    private void Start()
-    {
-        scoreText.text = score.ToString();
-    }
-
-    public void AddToScore(int pointsToAdd)
-    {
-        score += pointsToAdd;
-        scoreText.text = score.ToString();
-    }
-
-    public void ResetGameSession()
-    {
-        Destroy(gameObject);
-    }
-
-    private void ScoreManager()
-    {
-        generalScore = 0;
-
-        Coin[] coinScore = FindObjectsOfType<Coin>();
-        ChestLogic[] chestScore = FindObjectsOfType<ChestLogic>();
-        MeleeEnemy[] enemyScore = FindObjectsOfType<MeleeEnemy>();
-
-        foreach (Coin coin in coinScore)
-        {
-            generalScore += coin.pointsForCoinPickup;
-        }
-        foreach (ChestLogic chest in chestScore)
-        {
-            generalScore += chest.coinsInChest;
-        }
-        foreach (MeleeEnemy enemy in enemyScore)
-        {
-            generalScore += enemy.rewardForKill;
-        }
-
-        //Debug.Log(generalScore);
     }
 }

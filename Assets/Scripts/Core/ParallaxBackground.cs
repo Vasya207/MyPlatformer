@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Chest;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class ParallaxBackground : MonoBehaviour
     [SerializeField] bool infiniteVertical;
     [SerializeField] bool menuEffect;
     [SerializeField] float movingSpeed;
+    
     
     Transform cameraTransform;
     Vector3 lastCameraPosition;

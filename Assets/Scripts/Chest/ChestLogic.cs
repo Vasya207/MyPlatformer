@@ -1,30 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
+using Core;
 using UnityEngine;
 
-public class ChestLogic : MonoBehaviour
+namespace Chest
 {
-    [SerializeField] public int coinsInChest;
-    [SerializeField] AudioClip openSound;
-    Animator myAnimator;
-    BoxCollider2D myBoxCollider;
-    ParticleSystem myParticleSystem;
-
-    private void Awake()
+    public class ChestLogic : MonoBehaviour
     {
-        myAnimator = GetComponent<Animator>();
-        myBoxCollider = GetComponent<BoxCollider2D>();
-        myParticleSystem = GetComponent<ParticleSystem>();
-        myParticleSystem.Play();
-        myAnimator.enabled = false;
-    }
+        [SerializeField] public int coinsInChest;
+        [SerializeField] private AudioClip openSound;
+        private Animator myAnimator;
+        private BoxCollider2D myBoxCollider;
+        private ParticleSystem myParticleSystem;
+        private GameSession gameSession;
 
-    public void OpenTheChest()
-    {
-        FindObjectOfType<GameSession>().AddToScore(coinsInChest);
-        myAnimator.enabled = true;
-        myBoxCollider.enabled = false;
-        myParticleSystem.enableEmission = false;
-        SoundManager.instance.PlaySound(openSound);
+        private void Awake()
+        {
+            myAnimator = GetComponent<Animator>();
+            myBoxCollider = GetComponent<BoxCollider2D>();
+            myParticleSystem = GetComponent<ParticleSystem>();
+            gameSession = FindObjectOfType<GameSession>();
+            myParticleSystem.Play();
+            myAnimator.enabled = false;
+        }
+
+        public void OpenTheChest()
+        {
+            gameSession.AddToScore(coinsInChest);
+            myAnimator.enabled = true;
+            myBoxCollider.enabled = false;
+            myParticleSystem.Stop();
+            SoundManager.instance.PlaySound(openSound);
+        }
     }
 }

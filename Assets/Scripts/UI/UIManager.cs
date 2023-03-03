@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using Unity.Collections;
 using UnityEngine.InputSystem;
 using System.Collections;
+using Core;
 
 public class UIManager : MonoBehaviour
 {
@@ -64,9 +65,7 @@ public class UIManager : MonoBehaviour
 
     private void SaveCoinsAmount()
     {
-        PlayerPrefs.SetInt(gameSessionControl.levelName, gameSessionControl.score);
         PlayerPrefs.Save();
-        int coins = PlayerPrefs.GetInt(gameSessionControl.levelName);
     }
 
     public void LoadNextLevel()

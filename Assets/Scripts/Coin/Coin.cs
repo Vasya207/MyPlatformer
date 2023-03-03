@@ -1,22 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using Core;
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+namespace Coin
 {
-    [SerializeField] AudioClip collectSound;
-    [SerializeField] public int pointsForCoinPickup;
-
-    bool wasCollected = false;
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    public class Coin : MonoBehaviour
     {
-        if(collision.tag == "Player" && !wasCollected)
+        [SerializeField] public int pointsForCoinPickup;
+        [SerializeField] private AudioClip collectSound;
+
+        private GameSession gameSession;
+
+        private bool wasCollected;
+
+        private void Awake()
         {
-            SoundManager.instance.PlaySound(collectSound);
-            FindObjectOfType<GameSession>().AddToScore(pointsForCoinPickup);
-            wasCollected = true;
-            Destroy(gameObject);
+            gameSession = FindObjectOfType<GameSession>();
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if(collision.CompareTag("Player") && !wasCollected)
+            {
+                SoundManager.instance.PlaySound(collectSound);
+                gameSession.AddToScore(pointsForCoinPickup);
+                wasCollected = true;
+                Destroy(gameObject);
+            }
         }
     }
 }
