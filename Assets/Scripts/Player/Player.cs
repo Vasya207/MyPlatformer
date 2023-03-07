@@ -1,192 +1,184 @@
 using System.Collections;
-using System.Collections.Generic;
+using Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Animations;
 
-public class Player : MonoBehaviour
+namespace Player
 {
-    [Header("Health Components")]
-    [SerializeField] float startingHealth;
-
-    [Header("Movement Components")]
-    [SerializeField] float moveSpeed = 10f;
-    [SerializeField] float jumpSpeed = 10f;
-
-    [Header("Attack Components")]
-    [SerializeField] float attackCooldown;
-    [SerializeField] Transform firePoint;
-    [SerializeField] GameObject[] arrows;
-
-    [Header("Layers")]
-    [SerializeField] LayerMask groundLayer;
-
-    [Header("iFrames")]
-    [SerializeField] float iFramesDuration;
-    [SerializeField] float numberOfFlashes;
-
-    [Header("SFX")]
-    [SerializeField] AudioClip arrowSound;
-    [SerializeField] AudioClip hurtSound;
-    [SerializeField] AudioClip deathSound;
-
-    public bool dead { get; private set; }
-    Vector2 moveInput;
-    public float currentHealth { get; private set; }
-    float cooldownTimer = Mathf.Infinity;
-
-    Animator myAnimator;
-    Rigidbody2D myRigidBody;
-    CapsuleCollider2D myCapsuleCollider;
-    SpriteRenderer mySprite;
-    UIManager myUIManager;
-    PlayerInput playerInput;
-    PlayerCombat playerCombat;
-    
-    void Awake()
+    public class Player : MonoBehaviour
     {
-        myRigidBody = GetComponent<Rigidbody2D>();
-        myAnimator = GetComponent<Animator>();
-        myCapsuleCollider = GetComponent<CapsuleCollider2D>();
-        mySprite = GetComponent<SpriteRenderer>();
-        myUIManager = FindObjectOfType<UIManager>();
-        playerInput = FindObjectOfType<PlayerInput>();
-        playerCombat = FindObjectOfType<PlayerCombat>();
+        [Header("Health Components")] [SerializeField]
+        private float startingHealth;
 
-        currentHealth = startingHealth;
-    }
+        [Header("Movement Components")] [SerializeField]
+        private float moveSpeed = 10f;
 
-    void Update()
-    {
-        Run();
-        FlipSprite();
+        [SerializeField] private float jumpSpeed = 10f;
 
-        cooldownTimer += Time.deltaTime;
+        [Header("Attack Components")] [SerializeField]
+        private float attackCooldown;
 
-        myAnimator.SetBool("grounded", isGrounded());
-    }
+        [SerializeField] private Transform firePoint;
+        [SerializeField] private GameObject[] arrows;
 
-    void OnMove(InputValue value)
-    {
-        moveInput = value.Get<Vector2>();
-    }
+        [Header("Layers")] [SerializeField] private LayerMask groundLayer;
 
-    void OnFire(InputValue value)
-    {
-        if (CanAttack() && playerCombat.AttackFinished())
+        [Header("iFrames")] [SerializeField] private float iFramesDuration;
+        [SerializeField] private float numberOfFlashes;
+
+        [Header("SFX")] [SerializeField] private AudioClip arrowSound;
+        [SerializeField] private AudioClip hurtSound;
+        [SerializeField] private AudioClip deathSound;
+
+        public bool dead { get; private set; }
+        private Vector2 moveInput;
+        public float currentHealth { get; private set; }
+        private float cooldownTimer = Mathf.Infinity;
+
+        private Animator myAnimator;
+        private Rigidbody2D myRigidBody;
+        private CapsuleCollider2D myCapsuleCollider;
+        private SpriteRenderer mySprite;
+        private UIManager myUIManager;
+        private PlayerInput playerInput;
+        private PlayerCombat playerCombat;
+
+        private void Awake()
         {
-            SoundManager.instance.PlaySound(arrowSound);
-            myAnimator.SetTrigger("shoot");
-            cooldownTimer = 0;
+            myRigidBody = GetComponent<Rigidbody2D>();
+            myAnimator = GetComponent<Animator>();
+            myCapsuleCollider = GetComponent<CapsuleCollider2D>();
+            mySprite = GetComponent<SpriteRenderer>();
+            myUIManager = FindObjectOfType<UIManager>();
+            playerInput = FindObjectOfType<PlayerInput>();
+            playerCombat = FindObjectOfType<PlayerCombat>();
 
-            arrows[FindArrow()].transform.position = firePoint.position;
-            arrows[FindArrow()].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
+            currentHealth = startingHealth;
         }
-    }
 
-    void OnJump(InputValue value)
-    {
-        if (isGrounded())
+        private void Update()
         {
-            myAnimator.SetBool("grounded", false);
-            myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, jumpSpeed);
-            myAnimator.SetTrigger("isJumping");
+            Run();
+            FlipSprite();
+
+            cooldownTimer += Time.deltaTime;
+
+            myAnimator.SetBool("grounded", isGrounded());
         }
-    }
 
-    void Run()
-    {
-        myRigidBody.velocity = new Vector2(moveInput.x * moveSpeed, myRigidBody.velocity.y);
-        bool playerHasHorizontalSpeed = Mathf.Abs(myRigidBody.velocity.x) > Mathf.Epsilon;
-        myAnimator.SetBool("isRunning", playerHasHorizontalSpeed);
-    }
-
-    IEnumerator OpenGameOverScreen()
-    {
-        yield return new WaitForSeconds(1);
-        myUIManager.GameOver();
-    }
-
-    bool isGrounded()
-    {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(myCapsuleCollider.bounds.center, 
-            new Vector2(myCapsuleCollider.bounds.size.x, myCapsuleCollider.bounds.size.y - 0.2f),
-            0, Vector2.down, 0.1f, groundLayer);
-        return raycastHit.collider != null;
-    }
-
-    IEnumerator Invunerability()
-    {
-        Physics2D.IgnoreLayerCollision(9, 11, true);
-        for (int i = 0; i < numberOfFlashes; i++)
+        private void OnMove(InputValue value)
         {
-            mySprite.color = new Color(1, 0.4283019f, 0.4489709f, 0.5f);
-            yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes * 2));
-            mySprite.color = Color.white;
-            yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes * 2));
+            moveInput = value.Get<Vector2>();
         }
-        Physics2D.IgnoreLayerCollision(9, 11, false);
-    }
 
-    private int FindArrow()
-    {
-        for (int i = 0; i < arrows.Length; i++)
+        private void OnFire(InputValue value)
         {
-            if (!arrows[i].activeInHierarchy)
+            if (CanAttack() && playerCombat.AttackFinished())
             {
-                return i;
+                SoundManager.instance.PlaySound(arrowSound);
+                myAnimator.SetTrigger("shoot");
+                cooldownTimer = 0;
+
+                arrows[FindArrow()].transform.position = firePoint.position;
+                arrows[FindArrow()].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
             }
         }
-        return 0;
-    }
 
-    public bool CanAttack()
-    {
-        return myRigidBody.velocity == new Vector2(0, 0) 
-            && isGrounded() 
-            && !dead 
-            && cooldownTimer > attackCooldown;
-    }
-
-    public void AddHealth(float value)
-    {
-        currentHealth = Mathf.Clamp(currentHealth + value, 0, startingHealth);
-    }
-
-    public void FlipSprite()
-    {
-        bool playerHasHorizontalSpeed = Mathf.Abs(myRigidBody.velocity.x) > Mathf.Epsilon;
-        if (playerHasHorizontalSpeed)
+        private void OnJump(InputValue value)
         {
-            transform.localScale = new Vector2(Mathf.Sign(myRigidBody.velocity.x), 1f);
-        }
-    }
-
-    public void TakeDamage(float damage)
-    {
-        currentHealth = Mathf.Clamp(currentHealth - damage, 0, startingHealth);
-
-        if (currentHealth > 0)
-        {
-            myAnimator.SetTrigger("hurt");
-            SoundManager.instance.PlaySound(hurtSound);
-            StartCoroutine(Invunerability());
-        }
-        else
-        {
-            if (!dead)
+            if (isGrounded())
             {
-                myAnimator.SetTrigger("die");
-                myRigidBody.velocity = new Vector2(0, 0);
-                GetComponent<Player>().enabled = false;
-                if (playerInput != null)
-                {
-                    playerInput.enabled = false;
-                }
-                dead = true;
+                myAnimator.SetBool("grounded", false);
+                myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, jumpSpeed);
+                myAnimator.SetTrigger("isJumping");
+            }
+        }
 
-                SoundManager.instance.PlaySound(deathSound);
-                StartCoroutine(OpenGameOverScreen());
+        private void Run()
+        {
+            myRigidBody.velocity = new Vector2(moveInput.x * moveSpeed, myRigidBody.velocity.y);
+            var playerHasHorizontalSpeed = Mathf.Abs(myRigidBody.velocity.x) > Mathf.Epsilon;
+            myAnimator.SetBool("isRunning", playerHasHorizontalSpeed);
+        }
+
+        private IEnumerator OpenGameOverScreen()
+        {
+            yield return new WaitForSeconds(1);
+            myUIManager.GameOver();
+        }
+
+        private bool isGrounded()
+        {
+            var raycastHit = Physics2D.BoxCast(myCapsuleCollider.bounds.center,
+                new Vector2(myCapsuleCollider.bounds.size.x, myCapsuleCollider.bounds.size.y - 0.2f),
+                0, Vector2.down, 0.1f, groundLayer);
+            return raycastHit.collider != null;
+        }
+
+        private IEnumerator Invunerability()
+        {
+            Physics2D.IgnoreLayerCollision(9, 11, true);
+            for (var i = 0; i < numberOfFlashes; i++)
+            {
+                mySprite.color = new Color(1, 0.4283019f, 0.4489709f, 0.5f);
+                yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes * 2));
+                mySprite.color = Color.white;
+                yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes * 2));
+            }
+
+            Physics2D.IgnoreLayerCollision(9, 11, false);
+        }
+
+        private int FindArrow()
+        {
+            for (var i = 0; i < arrows.Length; i++)
+                if (!arrows[i].activeInHierarchy)
+                    return i;
+            return 0;
+        }
+
+        private bool CanAttack()
+        {
+            return myRigidBody.velocity == new Vector2(0, 0)
+                   && isGrounded()
+                   && !dead
+                   && cooldownTimer > attackCooldown;
+        }
+
+        public void AddHealth(float value)
+        {
+            currentHealth = Mathf.Clamp(currentHealth + value, 0, startingHealth);
+        }
+
+        private void FlipSprite()
+        {
+            var playerHasHorizontalSpeed = Mathf.Abs(myRigidBody.velocity.x) > Mathf.Epsilon;
+            if (playerHasHorizontalSpeed) transform.localScale = new Vector2(Mathf.Sign(myRigidBody.velocity.x), 1f);
+        }
+
+        public void TakeDamage(float damage)
+        {
+            currentHealth = Mathf.Clamp(currentHealth - damage, 0, startingHealth);
+
+            if (currentHealth > 0)
+            {
+                myAnimator.SetTrigger("hurt");
+                SoundManager.instance.PlaySound(hurtSound);
+                StartCoroutine(Invunerability());
+            }
+            else
+            {
+                if (!dead)
+                {
+                    myAnimator.SetTrigger("die");
+                    myRigidBody.velocity = new Vector2(0, 0);
+                    GetComponent<Player>().enabled = false;
+                    if (playerInput != null) playerInput.enabled = false;
+                    dead = true;
+
+                    SoundManager.instance.PlaySound(deathSound);
+                    StartCoroutine(OpenGameOverScreen());
+                }
             }
         }
     }

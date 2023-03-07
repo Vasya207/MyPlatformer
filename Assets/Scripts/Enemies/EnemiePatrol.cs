@@ -1,81 +1,74 @@
 using UnityEngine;
 
-public class EnemiePatrol : MonoBehaviour
+namespace Enemies
 {
-    [Header("Patrol Points")]
-    [SerializeField] Transform leftEdge;
-    [SerializeField] Transform rightEdge;
-
-    [Header("Enemy")]
-    [SerializeField] Transform enemy;
-
-    [Header("Movement Parameters")]
-    [SerializeField] float speed;
-    Vector3 initScale;
-    private bool movingLeft;
-
-    [Header("Idle Bahaviour")]
-    [SerializeField] float idleDuration;
-    float idleTimer;
-
-    [Header("Animator")]
-    [SerializeField] Animator animator;
-
-    private void Awake()
+    public class EnemiePatrol : MonoBehaviour
     {
-        initScale = enemy.localScale;
-    }
+        [Header("Patrol Points")] [SerializeField]
+        private Transform leftEdge;
 
-    private void OnDisable()
-    {
-        animator.SetBool("moving", false);
-    }
+        [SerializeField] private Transform rightEdge;
 
-    private void Update()
-    {
-        if (movingLeft)
+        [Header("Enemy")] [SerializeField] private Transform enemy;
+
+        [Header("Movement Parameters")] [SerializeField]
+        private float speed;
+
+        private Vector3 initScale;
+        private bool movingLeft;
+
+        [Header("Idle Behaviour")] [SerializeField]
+        private float idleDuration;
+
+        private float idleTimer;
+
+        [Header("Animator")] [SerializeField] private EnemyAnimationController enemyAnimationController;
+
+        private void Awake()
         {
-            if(enemy.position.x >= leftEdge.position.x)
+            initScale = enemy.localScale;
+        }
+
+        private void OnDisable()
+        {
+            enemyAnimationController.SetAction(EnemyAnimationController.EnemyState.Idle);
+        }
+
+        private void Update()
+        {
+            if (movingLeft)
             {
-                MoveInDirection(-1);
+                if (enemy.position.x >= leftEdge.position.x)
+                    MoveInDirection(-1);
+                else
+                    DirectionChange();
             }
             else
             {
-                DirectionChange();
+                if (enemy.position.x <= rightEdge.position.x)
+                    MoveInDirection(1);
+                else
+                    DirectionChange();
             }
         }
-        else
+
+        private void DirectionChange()
         {
-            if(enemy.position.x <= rightEdge.position.x)
-            {
-                MoveInDirection(1);
-            }
-            else
-            {
-                DirectionChange();
-            }
+            enemyAnimationController.SetAction(EnemyAnimationController.EnemyState.Idle);
+
+            idleTimer += Time.deltaTime;
+
+            if (idleTimer > idleDuration) movingLeft = !movingLeft;
         }
-    }
 
-    void DirectionChange()
-    {
-        animator.SetBool("moving", false);
-
-        idleTimer += Time.deltaTime;
-
-        if(idleTimer > idleDuration)
+        private void MoveInDirection(int direction)
         {
-            movingLeft = !movingLeft;
+            idleTimer = 0;
+            enemyAnimationController.SetAction(EnemyAnimationController.EnemyState.Movement);
+            enemy.localScale = new Vector3(Mathf.Abs(initScale.x) * direction, initScale.y, initScale.z);
+
+            enemy.position = new Vector3(enemy.position.x + Time.deltaTime * direction * speed,
+                enemy.position.y, enemy.position.z);
         }
-    }
-
-    void MoveInDirection(int direction)
-    {
-        idleTimer = 0;
-        animator.SetBool("moving", true);
-        enemy.localScale = new Vector3(Mathf.Abs(initScale.x) * direction, initScale.y, initScale.z);
-
-        enemy.position = new Vector3(enemy.position.x + Time.deltaTime * direction * speed,
-            enemy.position.y, enemy.position.z);
     }
 }

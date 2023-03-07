@@ -1,14 +1,17 @@
 using UnityEngine;
 
-public class Spikes : MonoBehaviour
+namespace Enemies
 {
-    [SerializeField] int damageAmount;
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    public class Spikes : MonoBehaviour
     {
-        if(collision.tag == "Player")
+        [SerializeField] int damageAmount;
+
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            collision.GetComponent<Player>().TakeDamage(damageAmount);
+            if(collision.CompareTag("Player"))
+            {
+                collision.GetComponent<Player.Player>().TakeDamage(damageAmount);
+            }
         }
     }
 }

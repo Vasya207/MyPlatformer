@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
 
     GameSession gameSessionControl;
     PlayerInput playerInput;
-    Player player;
+    Player.Player player;
 
     private void Awake()
     {
@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
         winScreen.SetActive(false);
         pauseScreen.SetActive(false);
         playerInput = FindObjectOfType<PlayerInput>();
-        player = FindObjectOfType<Player>();
+        player = FindObjectOfType<Player.Player>();
     }
 
     private void Update()

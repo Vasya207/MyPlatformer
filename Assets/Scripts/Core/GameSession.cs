@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Chest;
+using Enemies;
 using TMPro;
 using UnityEngine;
 
@@ -9,17 +11,19 @@ namespace Core
         [SerializeField] private TextMeshProUGUI scoreText;
 
         public int score;
-        public int GeneralScore { get; private set; }
+        public int MaximumScore { get; private set; }
 
         private void Awake()
         {
+            //Switch to singleton
+            //Create one base class Singleton
             var numGameSessions = FindObjectsOfType<GameSession>().Length;
             if (numGameSessions > 1)
                 Destroy(gameObject);
             else
                 DontDestroyOnLoad(gameObject);
 
-            ScoreManager();
+            ManageScore();
         }
 
         private void Start()
@@ -38,19 +42,19 @@ namespace Core
             Destroy(gameObject);
         }
 
-        private void ScoreManager()
+        private void ManageScore()
         {
-            GeneralScore = 0;
-
+            MaximumScore = 0;
             var coinScore = FindObjectsOfType<Coin.Coin>();
             var chestScore = FindObjectsOfType<ChestLogic>();
             var enemyScore = FindObjectsOfType<MeleeEnemy>();
 
-            foreach (var coin in coinScore) GeneralScore += coin.pointsForCoinPickup;
+            foreach (var coin in coinScore) MaximumScore += coin.pointsForCoinPickup;
 
-            foreach (var chest in chestScore) GeneralScore += chest.coinsInChest;
+            foreach (var chest in chestScore) MaximumScore += chest.coinsInChest;
 
-            foreach (var enemy in enemyScore) GeneralScore += enemy.rewardForKill;
+            foreach (var enemy in enemyScore) MaximumScore += enemy.rewardForKill;
         }
+        
     }
 }

@@ -1,4 +1,6 @@
 using Chest;
+using Core;
+using Enemies;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,12 +21,12 @@ public class PlayerCombat : MonoBehaviour
 
     float cooldownTimer = Mathf.Infinity;
     Animator myAnimator;
-    Player player;
+    Player.Player player;
     
     void Awake()
     {
         myAnimator = GetComponent<Animator>();
-        player = GetComponent<Player>();
+        player = GetComponent<Player.Player>();
     }
 
     void Update()
