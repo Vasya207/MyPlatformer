@@ -42,6 +42,7 @@ namespace Player
         private UIManager myUIManager;
         private PlayerInput playerInput;
         private PlayerCombat playerCombat;
+        private PlayerAnimationController playerAnimationController;
 
         private void Awake()
         {
@@ -52,6 +53,7 @@ namespace Player
             myUIManager = FindObjectOfType<UIManager>();
             playerInput = FindObjectOfType<PlayerInput>();
             playerCombat = FindObjectOfType<PlayerCombat>();
+            playerAnimationController = GetComponent<PlayerAnimationController>();
 
             currentHealth = startingHealth;
         }
@@ -63,7 +65,8 @@ namespace Player
 
             cooldownTimer += Time.deltaTime;
 
-            myAnimator.SetBool("grounded", isGrounded());
+            //myAnimator.SetBool("grounded", isGrounded());
+            playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Grounded, isGrounded());
         }
 
         private void OnMove(InputValue value)
@@ -76,7 +79,8 @@ namespace Player
             if (CanAttack() && playerCombat.AttackFinished())
             {
                 SoundManager.instance.PlaySound(arrowSound);
-                myAnimator.SetTrigger("shoot");
+                //myAnimator.SetTrigger("shoot");
+                playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Shoot);
                 cooldownTimer = 0;
 
                 arrows[FindArrow()].transform.position = firePoint.position;
@@ -88,9 +92,11 @@ namespace Player
         {
             if (isGrounded())
             {
-                myAnimator.SetBool("grounded", false);
+                //myAnimator.SetBool("grounded", false);
+                playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Grounded, false);
                 myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, jumpSpeed);
-                myAnimator.SetTrigger("isJumping");
+                //myAnimator.SetTrigger("isJumping");
+                playerAnimationController.SetAction(PlayerAnimationController.PlayerState.IsJumping);
             }
         }
 
@@ -98,7 +104,8 @@ namespace Player
         {
             myRigidBody.velocity = new Vector2(moveInput.x * moveSpeed, myRigidBody.velocity.y);
             var playerHasHorizontalSpeed = Mathf.Abs(myRigidBody.velocity.x) > Mathf.Epsilon;
-            myAnimator.SetBool("isRunning", playerHasHorizontalSpeed);
+            //myAnimator.SetBool("isRunning", playerHasHorizontalSpeed);
+            playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Movement, playerHasHorizontalSpeed);
         }
 
         private IEnumerator OpenGameOverScreen()
@@ -162,7 +169,8 @@ namespace Player
 
             if (currentHealth > 0)
             {
-                myAnimator.SetTrigger("hurt");
+                //myAnimator.SetTrigger("hurt");
+                playerAnimationController.SetAction(PlayerAnimationController.PlayerState.ReceiveDamage);
                 SoundManager.instance.PlaySound(hurtSound);
                 StartCoroutine(Invunerability());
             }
@@ -170,7 +178,8 @@ namespace Player
             {
                 if (!dead)
                 {
-                    myAnimator.SetTrigger("die");
+                    //myAnimator.SetTrigger("die");
+                    playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Death);
                     myRigidBody.velocity = new Vector2(0, 0);
                     GetComponent<Player>().enabled = false;
                     if (playerInput != null) playerInput.enabled = false;

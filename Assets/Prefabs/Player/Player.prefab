@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 8509882959068976238}
   - component: {fileID: 8509882959068976237}
   - component: {fileID: 3268815619683241411}
+  - component: {fileID: -3835800096644566252}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -281,6 +282,19 @@ MonoBehaviour:
     m_Bits: 2304
   hitAudio: {fileID: 8300000, guid: 756acaefab5dfac449725e8462f69093, type: 3}
   swordWavingAudio: {fileID: 8300000, guid: 245cddffafee5094a8f99607e65bd2ad, type: 3}
+--- !u!114 &-3835800096644566252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8509882959068976228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6146161e65caf7745acae416b200d073, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8509882959068976229}
 --- !u!1 &8509882959542139796
 GameObject:
   m_ObjectHideFlags: 0

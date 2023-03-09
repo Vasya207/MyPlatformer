@@ -5,27 +5,28 @@ namespace Enemies
 {
     public class MeleeEnemy : MonoBehaviour
     {
-        [Header("Attack Parameters")] [SerializeField]
-        private float attackCooldown;
+        [Header("Attack Parameters")] 
+        [SerializeField] private float attackCooldown;
 
         [SerializeField] private float range;
         [SerializeField] private int hitDamage;
         [SerializeField] private float collisionDamage;
 
-        [Header("Health Components")] [SerializeField]
-        private float startingHealth;
+        [Header("Health Components")] 
+        [SerializeField] private float startingHealth;
 
         [SerializeField] public int rewardForKill;
 
-        [Header("Collider Parameters")] [SerializeField]
-        private float colliderDistance;
+        [Header("Collider Parameters")] 
+        [SerializeField] private float colliderDistance;
 
         [SerializeField] private BoxCollider2D boxCollider;
 
-        [Header("Player Layer")] [SerializeField]
-        private LayerMask playerLayer;
+        [Header("Player Layer")] 
+        [SerializeField] private LayerMask playerLayer;
 
-        [Header("SFX")] [SerializeField] private AudioClip attackSound;
+        [Header("SFX")] 
+        [SerializeField] private AudioClip attackSound;
         [SerializeField] private AudioClip hurtSound;
         [SerializeField] private AudioClip deathSound;
 
@@ -64,7 +65,8 @@ namespace Enemies
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.CompareTag("Player")) collision.GetComponent<Player.Player>().TakeDamage(collisionDamage);
+            if (collision.CompareTag("Player")) 
+                collision.GetComponent<Player.Player>().TakeDamage(collisionDamage);
         }
 
         private bool PlayerInSight()
