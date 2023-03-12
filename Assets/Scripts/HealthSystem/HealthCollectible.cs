@@ -15,7 +15,7 @@ namespace HealthSystem
                 var player = collision.GetComponent<Player.Player>();
                 if (player != null)
                 {
-                    if (player.currentHealth >= 3) return;
+                    if (player.CurrentHealth >= 3) return;
                     player.AddHealth(healthValue);
                     SoundManager.instance.PlaySound(collectSound);
                     gameObject.SetActive(false);

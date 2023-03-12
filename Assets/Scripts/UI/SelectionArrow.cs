@@ -2,55 +2,58 @@ using Core;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SelectionArrow : MonoBehaviour
+namespace UI
 {
-    [SerializeField] RectTransform[] options;
-    [SerializeField] AudioClip changeSound;
-    [SerializeField] AudioClip interactSound;
-    RectTransform rect;
-    private int currentPosition;
-
-    void Awake()
+    public class SelectionArrow : MonoBehaviour
     {
-        rect = GetComponent<RectTransform>();
-    }
+        [SerializeField] RectTransform[] options;
+        [SerializeField] AudioClip changeSound;
+        [SerializeField] AudioClip interactSound;
+        RectTransform rect;
+        private int currentPosition;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-            ChangePosition(-1);
-        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-            ChangePosition(1);
-
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
-            Interact();
-    }
-
-    private void Interact()
-    {
-        SoundManager.instance.PlaySound(interactSound);
-
-        options[currentPosition].GetComponent<Button>().onClick.Invoke();
-    }
-
-    private void ChangePosition(int change) 
-    {
-        currentPosition += change;
-
-        if(change != 0)
+        void Awake()
         {
-            SoundManager.instance.PlaySound(changeSound);
+            rect = GetComponent<RectTransform>();
         }
 
-        if(currentPosition < 0)
+        private void Update()
         {
-            currentPosition = options.Length - 1;
-        }
-        else if(currentPosition > options.Length - 1)
-        {
-            currentPosition = 0;
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+                ChangePosition(-1);
+            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+                ChangePosition(1);
+
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+                Interact();
         }
 
-        rect.position = new Vector3(rect.position.x, options[currentPosition].position.y - 10, 0);
+        private void Interact()
+        {
+            SoundManager.instance.PlaySound(interactSound);
+
+            options[currentPosition].GetComponent<Button>().onClick.Invoke();
+        }
+
+        private void ChangePosition(int change) 
+        {
+            currentPosition += change;
+
+            if(change != 0)
+            {
+                SoundManager.instance.PlaySound(changeSound);
+            }
+
+            if(currentPosition < 0)
+            {
+                currentPosition = options.Length - 1;
+            }
+            else if(currentPosition > options.Length - 1)
+            {
+                currentPosition = 0;
+            }
+
+            rect.position = new Vector3(rect.position.x, options[currentPosition].position.y - 10, 0);
+        }
     }
 }

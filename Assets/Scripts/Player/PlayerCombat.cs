@@ -1,78 +1,88 @@
+using System;
 using Chest;
 using Core;
 using Enemies;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerCombat : MonoBehaviour
+namespace Player
 {
-    [Header("Attack Components")]
-    [SerializeField] int damageAmount = 2;
-    [SerializeField] float attackRange = 0.5f;
-    [SerializeField] float attackCooldown = 1f;
-    [SerializeField] Transform attackPoint;
-
-    [Header("Layers")]
-    [SerializeField] LayerMask enemyLayer;
-
-    [Header("Audio Components")]
-    [SerializeField] AudioClip hitAudio;
-    [SerializeField] AudioClip swordWavingAudio;
-
-    float cooldownTimer = Mathf.Infinity;
-    Animator myAnimator;
-    Player.Player player;
-    
-    void Awake()
+    public class PlayerCombat : MonoBehaviour
     {
-        myAnimator = GetComponent<Animator>();
-        player = GetComponent<Player.Player>();
-    }
+        [Header("Attack Components")] 
+        [SerializeField]
+        private int damageAmount = 2;
 
-    void Update()
-    {
-        cooldownTimer += Time.deltaTime;
-    }
+        [SerializeField] private float attackRange = 0.5f;
+        [SerializeField] private float attackCooldown = 1f;
+        [SerializeField] private Transform attackPoint;
 
-    void OnHit(InputValue inputValue)
-    {
-        if (cooldownTimer > attackCooldown)
+        [Header("Layers")] [SerializeField] 
+        private LayerMask enemyLayer;
+
+        [Header("Audio Components")] [SerializeField]
+        private AudioClip hitAudio;
+
+        [SerializeField] private AudioClip swordWavingAudio;
+
+        private float cooldownTimer = Mathf.Infinity;
+        private PlayerAnimationController playerAnimationController;
+        private Animator animator;
+        private const string CurrentAttackAnimName = "Player Light Attack";
+
+        private void Awake()
         {
-            cooldownTimer = Mathf.Epsilon;
-            myAnimator.SetTrigger("attack");
+            animator = GetComponent<Animator>();
+            playerAnimationController = GetComponent<PlayerAnimationController>();
         }
-    }
 
-    void Attack()
-    {
-        Collider2D[] hitObjects = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
-
-        SoundManager.instance.PlaySound(swordWavingAudio);
-
-        foreach (Collider2D hitObject in hitObjects)
+        private void Update()
         {
-            if(hitObject.tag == "Enemy")
+            cooldownTimer += Time.deltaTime;
+        }
+
+        private void OnHit(InputValue inputValue)
+        {
+            if (cooldownTimer > attackCooldown)
             {
-                SoundManager.instance.PlaySound(hitAudio);
-                hitObject.GetComponent<MeleeEnemy>().TakeDamage(damageAmount);
-            }
-            else if(hitObject.tag == "Chest")
-            {
-                hitObject.GetComponent<ChestLogic>().OpenTheChest();
+                cooldownTimer = Mathf.Epsilon;
+                playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Attack);
             }
         }
-    }
+        
+        /// <summary>
+        /// Is triggered by Animator events
+        /// </summary>
+        
+        private void Attack()
+        {
+            var hitObjects = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
 
-    void OnDrawGizmosSelected()
-    {
-        if (attackPoint == null)
-            return;
+            SoundManager.instance.PlaySound(swordWavingAudio);
 
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-    }
+            foreach (var hitObject in hitObjects)
+                if (hitObject.CompareTag("Enemy"))
+                {
+                    SoundManager.instance.PlaySound(hitAudio);
+                    hitObject.GetComponent<MeleeEnemy>().TakeDamage(damageAmount);
+                }
+                else if (hitObject.CompareTag("Chest"))
+                {
+                    hitObject.GetComponent<ChestLogic>().OpenTheChest();
+                }
+        }
 
-    public bool AttackFinished()
-    {
-        return cooldownTimer > 1.2f;
+        private void OnDrawGizmosSelected()
+        {
+            if (attackPoint == null)
+                return;
+
+            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        }
+
+        public bool AttackFinished()
+        {
+            return !animator.GetCurrentAnimatorStateInfo(0).IsName(CurrentAttackAnimName);
+        }
     }
 }

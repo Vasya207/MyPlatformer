@@ -1,77 +1,66 @@
 using Enemies;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+namespace Player
 {
-    [SerializeField] float speed;
-
-    private float direction;
-    private bool hit;
-    float lifeTime = 0;
-
-    BoxCollider2D myCollider;
-
-    private void Awake()
+    public class Projectile : MonoBehaviour
     {
-        myCollider = GetComponent<BoxCollider2D>();
-    }
+        [SerializeField] private float speed;
 
-    private void Update()
-    {
-        if (hit)
+        private float direction;
+        private bool hit;
+        private float lifeTime;
+
+        private BoxCollider2D myCollider;
+
+        private void Awake()
         {
-            lifeTime += Time.deltaTime;
+            myCollider = GetComponent<BoxCollider2D>();
+        }
 
-            if (lifeTime > 2)
+        private void Update()
+        {
+            if (hit)
             {
-                gameObject.SetActive(false);
+                lifeTime += Time.deltaTime;
+
+                if (lifeTime > 2) gameObject.SetActive(false);
+            }
+            else
+            {
+                var movementSpeed = speed * Time.deltaTime * direction;
+                transform.Translate(movementSpeed, 0, 0);
             }
         }
-        else
-        {
-            float movementSpeed = speed * Time.deltaTime * direction;
-            transform.Translate(movementSpeed, 0, 0);
-        }
-    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.tag == "Platforms")
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            hit = true;
-            myCollider.enabled = false;
-        }
-        
-        else if(collision.tag == "Enemy")
-        {
-            myCollider.enabled = false;
-            gameObject.SetActive(false);
-            collision.GetComponent<MeleeEnemy>().TakeDamage(1);
+            if (collision.CompareTag("Platforms"))
+            {
+                hit = true;
+                myCollider.enabled = false;
+            }
+
+            else if (collision.CompareTag("Enemy"))
+            {
+                myCollider.enabled = false;
+                gameObject.SetActive(false);
+                collision.GetComponent<MeleeEnemy>().TakeDamage(1);
+            }
         }
 
-        /*else if(collision.tag == "Chest")
+        public void SetDirection(float dir)
         {
-            collision.GetComponent<ChestLogic>().OpenTheChest();
-            hit = true;
-            //gameObject.SetActive(false);
-            myCollider.enabled = false;
-        }*/
-    }
+            lifeTime = 0;
+            direction = dir;
+            gameObject.SetActive(true);
+            hit = false;
+            myCollider.enabled = true;
 
-    public void SetDirection(float _direction)
-    {
-        lifeTime = 0;
-        direction = _direction;
-        gameObject.SetActive(true);
-        hit = false;
-        myCollider.enabled = true;
+            var localScaleX = transform.localScale.x;
+            if (Mathf.Sign(localScaleX) != dir) localScaleX = -localScaleX;
 
-        float localScaleX = transform.localScale.x;
-        if(Mathf.Sign(localScaleX) != _direction)
-        {
-            localScaleX = -localScaleX;
+            transform.localScale = new Vector3(localScaleX, transform.localScale.y, transform.localScale.z);
         }
-
-        transform.localScale = new Vector3(localScaleX, transform.localScale.y, transform.localScale.z);
     }
 }

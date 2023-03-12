@@ -52,7 +52,7 @@ namespace Enemies
         {
             cooldownTimer += Time.deltaTime;
 
-            if (PlayerInSight() && player.currentHealth > 0)
+            if (PlayerInSight() && player.CurrentHealth > 0)
                 if (cooldownTimer >= attackCooldown)
                 {
                     cooldownTimer = 0f;
@@ -93,7 +93,7 @@ namespace Enemies
         {
             if (PlayerInSight())
             {
-                if (!player.dead)
+                if (!player.Dead)
                 {
                     player.TakeDamage(hitDamage);
                 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using Core;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -30,12 +31,11 @@ namespace Player
         [SerializeField] private AudioClip hurtSound;
         [SerializeField] private AudioClip deathSound;
 
-        public bool dead { get; private set; }
+        public bool Dead { get; private set; }
         private Vector2 moveInput;
-        public float currentHealth { get; private set; }
+        public float CurrentHealth { get; private set; }
         private float cooldownTimer = Mathf.Infinity;
 
-        private Animator myAnimator;
         private Rigidbody2D myRigidBody;
         private CapsuleCollider2D myCapsuleCollider;
         private SpriteRenderer mySprite;
@@ -47,15 +47,14 @@ namespace Player
         private void Awake()
         {
             myRigidBody = GetComponent<Rigidbody2D>();
-            myAnimator = GetComponent<Animator>();
             myCapsuleCollider = GetComponent<CapsuleCollider2D>();
             mySprite = GetComponent<SpriteRenderer>();
             myUIManager = FindObjectOfType<UIManager>();
             playerInput = FindObjectOfType<PlayerInput>();
             playerCombat = FindObjectOfType<PlayerCombat>();
             playerAnimationController = GetComponent<PlayerAnimationController>();
-
-            currentHealth = startingHealth;
+            
+            CurrentHealth = startingHealth;
         }
 
         private void Update()
@@ -64,9 +63,7 @@ namespace Player
             FlipSprite();
 
             cooldownTimer += Time.deltaTime;
-
-            //myAnimator.SetBool("grounded", isGrounded());
-            playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Grounded, isGrounded());
+            playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Grounded, IsGrounded());
         }
 
         private void OnMove(InputValue value)
@@ -79,7 +76,6 @@ namespace Player
             if (CanAttack() && playerCombat.AttackFinished())
             {
                 SoundManager.instance.PlaySound(arrowSound);
-                //myAnimator.SetTrigger("shoot");
                 playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Shoot);
                 cooldownTimer = 0;
 
@@ -90,22 +86,22 @@ namespace Player
 
         private void OnJump(InputValue value)
         {
-            if (isGrounded())
+            if (IsGrounded())
             {
-                //myAnimator.SetBool("grounded", false);
                 playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Grounded, false);
                 myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, jumpSpeed);
-                //myAnimator.SetTrigger("isJumping");
                 playerAnimationController.SetAction(PlayerAnimationController.PlayerState.IsJumping);
             }
         }
 
         private void Run()
         {
-            myRigidBody.velocity = new Vector2(moveInput.x * moveSpeed, myRigidBody.velocity.y);
-            var playerHasHorizontalSpeed = Mathf.Abs(myRigidBody.velocity.x) > Mathf.Epsilon;
-            //myAnimator.SetBool("isRunning", playerHasHorizontalSpeed);
-            playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Movement, playerHasHorizontalSpeed);
+            var velocity = myRigidBody.velocity;
+            velocity = new Vector2(moveInput.x * moveSpeed, velocity.y);
+            myRigidBody.velocity = velocity;
+            var playerHasHorizontalSpeed = Mathf.Abs(velocity.x) > Mathf.Epsilon;
+            playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Movement,
+                playerHasHorizontalSpeed);
         }
 
         private IEnumerator OpenGameOverScreen()
@@ -114,7 +110,7 @@ namespace Player
             myUIManager.GameOver();
         }
 
-        private bool isGrounded()
+        private bool IsGrounded()
         {
             var raycastHit = Physics2D.BoxCast(myCapsuleCollider.bounds.center,
                 new Vector2(myCapsuleCollider.bounds.size.x, myCapsuleCollider.bounds.size.y - 0.2f),
@@ -122,7 +118,7 @@ namespace Player
             return raycastHit.collider != null;
         }
 
-        private IEnumerator Invunerability()
+        private IEnumerator Invulnerability()
         {
             Physics2D.IgnoreLayerCollision(9, 11, true);
             for (var i = 0; i < numberOfFlashes; i++)
@@ -147,14 +143,14 @@ namespace Player
         private bool CanAttack()
         {
             return myRigidBody.velocity == new Vector2(0, 0)
-                   && isGrounded()
-                   && !dead
+                   && IsGrounded()
+                   && !Dead
                    && cooldownTimer > attackCooldown;
         }
 
         public void AddHealth(float value)
         {
-            currentHealth = Mathf.Clamp(currentHealth + value, 0, startingHealth);
+            CurrentHealth = Mathf.Clamp(CurrentHealth + value, 0, startingHealth);
         }
 
         private void FlipSprite()
@@ -165,25 +161,23 @@ namespace Player
 
         public void TakeDamage(float damage)
         {
-            currentHealth = Mathf.Clamp(currentHealth - damage, 0, startingHealth);
+            CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, startingHealth);
 
-            if (currentHealth > 0)
+            if (CurrentHealth > 0)
             {
-                //myAnimator.SetTrigger("hurt");
                 playerAnimationController.SetAction(PlayerAnimationController.PlayerState.ReceiveDamage);
                 SoundManager.instance.PlaySound(hurtSound);
-                StartCoroutine(Invunerability());
+                StartCoroutine(Invulnerability());
             }
             else
             {
-                if (!dead)
+                if (!Dead)
                 {
-                    //myAnimator.SetTrigger("die");
                     playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Death);
                     myRigidBody.velocity = new Vector2(0, 0);
                     GetComponent<Player>().enabled = false;
                     if (playerInput != null) playerInput.enabled = false;
-                    dead = true;
+                    Dead = true;
 
                     SoundManager.instance.PlaySound(deathSound);
                     StartCoroutine(OpenGameOverScreen());

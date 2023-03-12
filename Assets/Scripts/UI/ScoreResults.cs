@@ -3,26 +3,28 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class ScoreResults : MonoBehaviour
+namespace UI
 {
-    GameSession gameSession;
-    private void Start()
+    public class ScoreResults : MonoBehaviour
     {
-        gameSession = GetComponentInParent<GameSession>();
+        private GameSession gameSession;
 
-        string scoreText = "YOU SCORED " + gameSession.score + "/" + gameSession.MaximumScore;
-        string prefName = "Level".ToUpper() + " " + SceneManager.GetActiveScene().buildIndex;
-        
-        if(PlayerPrefs.GetInt(prefName + "HS") < gameSession.score)
+        private void Start()
         {
-            PlayerPrefs.SetInt(prefName + "HS", gameSession.score);
+            gameSession = GetComponentInParent<GameSession>();
+
+            var scoreText = "YOU SCORED " + gameSession.score + "/" + gameSession.MaximumScore;
+            var prefName = "Level".ToUpper() + " " + SceneManager.GetActiveScene().buildIndex;
+
+            if (PlayerPrefs.GetInt(prefName + "HS") < gameSession.score)
+                PlayerPrefs.SetInt(prefName + "HS", gameSession.score);
+
+            var menuText = "YOU SCORED " + PlayerPrefs.GetInt(prefName + "HS") + "/" + gameSession.MaximumScore;
+
+            PlayerPrefs.SetString(prefName, menuText);
+            PlayerPrefs.Save();
+
+            gameObject.GetComponent<Text>().text = scoreText;
         }
-
-        string menuText = "YOU SCORED " + PlayerPrefs.GetInt(prefName + "HS") + "/" + gameSession.MaximumScore;
-
-        PlayerPrefs.SetString(prefName, menuText);
-        PlayerPrefs.Save();
-
-        gameObject.GetComponent<Text>().text = scoreText;
     }
 }

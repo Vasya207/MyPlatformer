@@ -11,12 +11,12 @@ namespace HealthSystem
 
         private void Start()
         {
-            totalHealthbar.fillAmount = player.currentHealth / 10;
+            totalHealthbar.fillAmount = player.CurrentHealth / 10;
         }
 
         private void Update()
         {
-            currentHealthbar.fillAmount = player.currentHealth / 10;
+            currentHealthbar.fillAmount = player.CurrentHealth / 10;
         }
     }
 }
