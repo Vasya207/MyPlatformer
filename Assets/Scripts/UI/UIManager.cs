@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace UI
 {
-    public class UIManager : MonoBehaviour
+    public class UIManager : Singleton<UIManager>
     {
         [Header("Game Over")] [SerializeField] private GameObject gameOverScreen;
         [SerializeField] private AudioClip gameOverSound;
@@ -23,7 +23,7 @@ namespace UI
 
         private void Awake()
         {
-            gameSessionControl = GetComponentInParent<GameSession>();
+            gameSessionControl = GameSession.Instance;
             gameOverScreen.SetActive(false);
             winScreen.SetActive(false);
             pauseScreen.SetActive(false);

@@ -49,7 +49,7 @@ namespace Player
             myRigidBody = GetComponent<Rigidbody2D>();
             myCapsuleCollider = GetComponent<CapsuleCollider2D>();
             mySprite = GetComponent<SpriteRenderer>();
-            myUIManager = FindObjectOfType<UIManager>();
+            myUIManager = UIManager.Instance;
             playerInput = FindObjectOfType<PlayerInput>();
             playerCombat = FindObjectOfType<PlayerCombat>();
             playerAnimationController = GetComponent<PlayerAnimationController>();

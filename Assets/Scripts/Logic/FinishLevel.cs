@@ -12,7 +12,7 @@ namespace Core
 
         private void Awake()
         {
-            uiManager = FindObjectOfType<UIManager>();
+            uiManager = UIManager.Instance;
             playerInput = FindObjectOfType<PlayerInput>();
         }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Core
 {
-    public class SoundManager : MonoBehaviour
+    public class SoundManager : Singleton<SoundManager>
     {
         public static SoundManager instance { get; private set; }
         private AudioSource soundSource;
@@ -13,8 +13,7 @@ namespace Core
         {
             musicSource = transform.GetChild(0).GetComponent<AudioSource>();
             soundSource = GetComponent<AudioSource>();
-
-            //Switch to singleton pattern
+            
             if (instance == null)
             {
                 instance = this;
@@ -25,7 +24,7 @@ namespace Core
             {
                 Destroy(gameObject);
             }
-
+            
             ChangeSoundVolume(0);
             ChangeMusicVolume(0);
         }

@@ -15,7 +15,7 @@ namespace Coin
 
         private void Awake()
         {
-            gameSession = FindObjectOfType<GameSession>();
+            gameSession = GameSession.Instance;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

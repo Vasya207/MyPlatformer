@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Core
 {
-    public class GameSession : MonoBehaviour
+    public class GameSession : Singleton<GameSession>
     {
         [SerializeField] private TextMeshProUGUI scoreText;
 
@@ -15,14 +15,6 @@ namespace Core
 
         private void Awake()
         {
-            //Switch to singleton
-            //Create one base class Singleton
-            var numGameSessions = FindObjectsOfType<GameSession>().Length;
-            if (numGameSessions > 1)
-                Destroy(gameObject);
-            else
-                DontDestroyOnLoad(gameObject);
-
             ManageScore();
         }
 
@@ -47,7 +39,7 @@ namespace Core
             MaximumScore = 0;
             var coinScore = FindObjectsOfType<Coin.Coin>();
             var chestScore = FindObjectsOfType<ChestLogic>();
-            var enemyScore = FindObjectsOfType<MeleeEnemy>();
+            var enemyScore = FindObjectsOfType<Enemy>();
 
             foreach (var coin in coinScore) MaximumScore += coin.pointsForCoinPickup;
 

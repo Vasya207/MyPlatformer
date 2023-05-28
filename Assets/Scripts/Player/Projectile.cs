@@ -45,7 +45,7 @@ namespace Player
             {
                 myCollider.enabled = false;
                 gameObject.SetActive(false);
-                collision.GetComponent<MeleeEnemy>().TakeDamage(1);
+                collision.GetComponent<Enemy>().TakeDamage(1);
             }
         }
 

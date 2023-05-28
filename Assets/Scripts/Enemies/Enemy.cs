@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Enemies
 {
-    public class MeleeEnemy : MonoBehaviour
+    public class Enemy : MonoBehaviour
     {
         [Header("Attack Parameters")] 
         [SerializeField] private float attackCooldown;
@@ -101,7 +101,7 @@ namespace Enemies
                 else
                 {
                     GetComponentInParent<EnemiePatrol>().enabled = false;
-                    gameObject.GetComponent<MeleeEnemy>().enabled = false;
+                    gameObject.GetComponent<Enemy>().enabled = false;
                 }
             }
         }
@@ -123,7 +123,7 @@ namespace Enemies
                     enemyAnimationController.SetAction(EnemyAnimationController.EnemyState.Death);
 
                     boxCollider.enabled = false;
-                    GetComponent<MeleeEnemy>().enabled = false;
+                    GetComponent<Enemy>().enabled = false;
                     GetComponentInParent<EnemiePatrol>().enabled = false;
                     transform.position = new Vector2(transform.position.x, transform.position.y - 0.3f);
                     dead = true;

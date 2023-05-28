@@ -17,7 +17,7 @@ namespace Chest
             myAnimator = GetComponent<Animator>();
             myBoxCollider = GetComponent<BoxCollider2D>();
             myParticleSystem = GetComponent<ParticleSystem>();
-            gameSession = FindObjectOfType<GameSession>();
+            gameSession = GameSession.Instance;
             myParticleSystem.Play();
             myAnimator.enabled = false;
         }
