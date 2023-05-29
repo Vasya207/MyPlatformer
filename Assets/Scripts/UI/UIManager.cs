@@ -17,6 +17,7 @@ namespace UI
 
         [Header("Pause")] [SerializeField] private GameObject pauseScreen;
 
+        private SoundManager soundManager;
         private GameSession gameSessionControl;
         private PlayerInput playerInput;
         private Player.Player player;
@@ -29,6 +30,7 @@ namespace UI
             pauseScreen.SetActive(false);
             playerInput = FindObjectOfType<PlayerInput>();
             player = FindObjectOfType<Player.Player>();
+            soundManager = SoundManager.Instance;
         }
 
         private void Update()
@@ -48,13 +50,13 @@ namespace UI
         public void GameOver()
         {
             gameOverScreen.SetActive(true);
-            SoundManager.instance.PlaySound(gameOverSound);
+            soundManager.PlaySound(gameOverSound);
         }
 
         public void ActivateWinScreen()
         {
             winScreen.SetActive(true);
-            SoundManager.instance.PlaySound(winSound);
+            soundManager.PlaySound(winSound);
         }
 
         public void LoadNextLevel()
@@ -103,12 +105,12 @@ namespace UI
 
         public void SoundVolume()
         {
-            SoundManager.instance.ChangeSoundVolume(0.2f);
+            soundManager.ChangeSoundVolume(0.2f);
         }
 
         public void MusicVolume()
         {
-            SoundManager.instance.ChangeMusicVolume(0.2f);
+            soundManager.ChangeMusicVolume(0.2f);
         }
 
         #endregion

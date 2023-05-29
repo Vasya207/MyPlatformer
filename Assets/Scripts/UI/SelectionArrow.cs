@@ -11,10 +11,12 @@ namespace UI
         [SerializeField] AudioClip interactSound;
         RectTransform rect;
         private int currentPosition;
+        private SoundManager soundManager;
 
         void Awake()
         {
             rect = GetComponent<RectTransform>();
+            soundManager = SoundManager.Instance;
         }
 
         private void Update()
@@ -30,7 +32,7 @@ namespace UI
 
         private void Interact()
         {
-            SoundManager.instance.PlaySound(interactSound);
+            soundManager.PlaySound(interactSound);
 
             options[currentPosition].GetComponent<Button>().onClick.Invoke();
         }
@@ -41,7 +43,7 @@ namespace UI
 
             if(change != 0)
             {
-                SoundManager.instance.PlaySound(changeSound);
+                soundManager.PlaySound(changeSound);
             }
 
             if(currentPosition < 0)

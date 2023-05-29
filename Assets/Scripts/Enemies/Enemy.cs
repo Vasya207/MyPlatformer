@@ -38,6 +38,7 @@ namespace Enemies
 
         private EnemyAnimationController enemyAnimationController;
         private EnemiePatrol enemyPatrol;
+        private SoundManager soundManager;
         private Player.Player player;
 
         private void Awake()
@@ -46,6 +47,7 @@ namespace Enemies
             enemyAnimationController = GetComponent<EnemyAnimationController>();
             enemyPatrol = GetComponentInParent<EnemiePatrol>();
             bloodParticles = GetComponentInChildren<ParticleSystem>();
+            soundManager = SoundManager.Instance;
         }
 
         private void Update()
@@ -57,7 +59,7 @@ namespace Enemies
                 {
                     cooldownTimer = 0f;
                     enemyAnimationController.SetAction(EnemyAnimationController.EnemyState.MeleeAttack);
-                    SoundManager.instance.PlaySound(attackSound);
+                    soundManager.PlaySound(attackSound);
                 }
 
             if (enemyPatrol != null) enemyPatrol.enabled = !PlayerInSight();
@@ -114,7 +116,7 @@ namespace Enemies
             if (currentHealth > 0)
             {
                 enemyAnimationController.SetAction(EnemyAnimationController.EnemyState.ReceiveDamage);
-                SoundManager.instance.PlaySound(hurtSound);
+                soundManager.PlaySound(hurtSound);
             }
             else
             {
@@ -128,7 +130,7 @@ namespace Enemies
                     transform.position = new Vector2(transform.position.x, transform.position.y - 0.3f);
                     dead = true;
 
-                    SoundManager.instance.PlaySound(deathSound);
+                    soundManager.PlaySound(deathSound);
 
                     FindObjectOfType<GameSession>().AddToScore(rewardForKill);
                 }

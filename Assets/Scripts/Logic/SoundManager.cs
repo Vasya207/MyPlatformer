@@ -5,7 +5,6 @@ namespace Core
 {
     public class SoundManager : Singleton<SoundManager>
     {
-        public static SoundManager instance { get; private set; }
         private AudioSource soundSource;
         private AudioSource musicSource;
 
@@ -13,18 +12,7 @@ namespace Core
         {
             musicSource = transform.GetChild(0).GetComponent<AudioSource>();
             soundSource = GetComponent<AudioSource>();
-            
-            if (instance == null)
-            {
-                instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
 
-            else if (instance != null && instance != this)
-            {
-                Destroy(gameObject);
-            }
-            
             ChangeSoundVolume(0);
             ChangeMusicVolume(0);
         }

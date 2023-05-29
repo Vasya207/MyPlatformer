@@ -42,6 +42,7 @@ namespace Player
         private UIManager myUIManager;
         private PlayerInput playerInput;
         private PlayerCombat playerCombat;
+        private SoundManager soundManager;
         private PlayerAnimationController playerAnimationController;
 
         private void Awake()
@@ -53,6 +54,7 @@ namespace Player
             playerInput = FindObjectOfType<PlayerInput>();
             playerCombat = FindObjectOfType<PlayerCombat>();
             playerAnimationController = GetComponent<PlayerAnimationController>();
+            soundManager = SoundManager.Instance;
             
             CurrentHealth = startingHealth;
         }
@@ -75,7 +77,7 @@ namespace Player
         {
             if (CanAttack() && playerCombat.AttackFinished())
             {
-                SoundManager.instance.PlaySound(arrowSound);
+                soundManager.PlaySound(arrowSound);
                 playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Shoot);
                 cooldownTimer = 0;
 
@@ -166,7 +168,7 @@ namespace Player
             if (CurrentHealth > 0)
             {
                 playerAnimationController.SetAction(PlayerAnimationController.PlayerState.ReceiveDamage);
-                SoundManager.instance.PlaySound(hurtSound);
+                soundManager.PlaySound(hurtSound);
                 StartCoroutine(Invulnerability());
             }
             else
@@ -179,7 +181,7 @@ namespace Player
                     if (playerInput != null) playerInput.enabled = false;
                     Dead = true;
 
-                    SoundManager.instance.PlaySound(deathSound);
+                    soundManager.PlaySound(deathSound);
                     StartCoroutine(OpenGameOverScreen());
                 }
             }

@@ -1,3 +1,4 @@
+using System;
 using Core;
 using UnityEngine;
 
@@ -8,6 +9,12 @@ namespace HealthSystem
         [SerializeField] private float healthValue;
         [SerializeField] private AudioClip collectSound;
 
+        private SoundManager soundManager;
+        private void Awake()
+        {
+            soundManager = SoundManager.Instance;
+        }
+
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.CompareTag("Player"))
@@ -17,7 +24,7 @@ namespace HealthSystem
                 {
                     if (player.CurrentHealth >= 3) return;
                     player.AddHealth(healthValue);
-                    SoundManager.instance.PlaySound(collectSound);
+                    soundManager.PlaySound(collectSound);
                     gameObject.SetActive(false);
                 }
             }

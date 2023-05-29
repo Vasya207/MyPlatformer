@@ -9,14 +9,17 @@ namespace UI
         [SerializeField] GameObject mainMenu;
         [SerializeField] GameObject levelSelection;
 
+        private SoundManager soundManager;
+        
         private void Awake()
         {
             levelSelection.SetActive(false);
             mainMenu.SetActive(true);
+            soundManager = SoundManager.Instance;
         }
         public void Quit()
         {
-            SoundManager.instance.PlaySound(switchSound);
+            soundManager.PlaySound(switchSound);
             Application.Quit();
 
 #if UNITY_EDITOR
@@ -41,18 +44,18 @@ namespace UI
         public void SoundVolume()
         {
             PlaySwitchSound();
-            SoundManager.instance.ChangeSoundVolume(0.2f);
+            soundManager.ChangeSoundVolume(0.2f);
         }
 
         public void MusicVolume()
         {
             PlaySwitchSound();
-            SoundManager.instance.ChangeMusicVolume(0.2f);
+            soundManager.ChangeMusicVolume(0.2f);
         }
 
         public void PlaySwitchSound()
         {
-            SoundManager.instance.PlaySound(switchSound);
+            soundManager.PlaySound(switchSound);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Chest
         private BoxCollider2D myBoxCollider;
         private ParticleSystem myParticleSystem;
         private GameSession gameSession;
+        private SoundManager soundManager;
 
         private void Awake()
         {
@@ -20,6 +21,7 @@ namespace Chest
             gameSession = GameSession.Instance;
             myParticleSystem.Play();
             myAnimator.enabled = false;
+            soundManager = SoundManager.Instance;
         }
 
         public void OpenTheChest()
@@ -28,7 +30,7 @@ namespace Chest
             myAnimator.enabled = true;
             myBoxCollider.enabled = false;
             myParticleSystem.Stop();
-            SoundManager.instance.PlaySound(openSound);
+            soundManager.PlaySound(openSound);
         }
     }
 }
