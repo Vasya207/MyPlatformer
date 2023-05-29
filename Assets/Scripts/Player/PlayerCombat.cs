@@ -28,12 +28,10 @@ namespace Player
         private float cooldownTimer = Mathf.Infinity;
         private PlayerAnimationController playerAnimationController;
         private Animator animator;
-        private SoundManager soundManager;
         private const string CurrentAttackAnimName = "Player Light Attack";
 
         private void Awake()
         {
-            soundManager = SoundManager.Instance;
             animator = GetComponent<Animator>();
             playerAnimationController = GetComponent<PlayerAnimationController>();
         }
@@ -60,12 +58,12 @@ namespace Player
         {
             var hitObjects = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
 
-            soundManager.PlaySound(swordWavingAudio);
+            SoundManager.Instance.PlaySound(swordWavingAudio);
 
             foreach (var hitObject in hitObjects)
                 if (hitObject.CompareTag("Enemy"))
                 {
-                    soundManager.PlaySound(hitAudio);
+                    SoundManager.Instance.PlaySound(hitAudio);
                     hitObject.GetComponent<Enemy>().TakeDamage(damageAmount);
                 }
                 else if (hitObject.CompareTag("Chest"))
