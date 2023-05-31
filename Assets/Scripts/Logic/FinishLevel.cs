@@ -8,11 +8,8 @@ namespace Core
     public class FinishLevel : MonoBehaviour
     {
         private PlayerInput playerInput;
-        private UIManager uiManager;
-
         private void Awake()
         {
-            uiManager = UIManager.Instance;
             playerInput = FindObjectOfType<PlayerInput>();
         }
 
@@ -26,7 +23,7 @@ namespace Core
 
                 if (playerInput != null) playerInput.enabled = false;
 
-                uiManager.ActivateWinScreen();
+                UIManager.Instance.ActivateWinScreen();
             }
         }
     }

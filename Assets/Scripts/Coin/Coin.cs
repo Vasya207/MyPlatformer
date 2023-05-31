@@ -8,21 +8,14 @@ namespace Coin
         [SerializeField] public int pointsForCoinPickup;
         [SerializeField] private AudioClip collectSound;
 
-        private GameSession gameSession;
-
         private bool wasCollected;
-
-        private void Awake()
-        {
-            gameSession = GameSession.Instance;
-        }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if(collision.CompareTag("Player") && !wasCollected)
             {
                 SoundManager.Instance.PlaySound(collectSound);
-                gameSession.AddToScore(pointsForCoinPickup);
+                GameSession.Instance.AddToScore(pointsForCoinPickup);
                 wasCollected = true;
                 Destroy(gameObject);
             }

@@ -17,20 +17,16 @@ namespace UI
 
         [Header("Pause")] [SerializeField] private GameObject pauseScreen;
 
-        private SoundManager soundManager;
-        private GameSession gameSessionControl;
         private PlayerInput playerInput;
         private Player.Player player;
 
         private void Awake()
         {
-            gameSessionControl = GameSession.Instance;
             gameOverScreen.SetActive(false);
             winScreen.SetActive(false);
             pauseScreen.SetActive(false);
             playerInput = FindObjectOfType<PlayerInput>();
             player = FindObjectOfType<Player.Player>();
-            soundManager = SoundManager.Instance;
         }
 
         private void Update()
@@ -50,31 +46,31 @@ namespace UI
         public void GameOver()
         {
             gameOverScreen.SetActive(true);
-            soundManager.PlaySound(gameOverSound);
+            SoundManager.Instance.PlaySound(gameOverSound);
         }
 
         public void ActivateWinScreen()
         {
             winScreen.SetActive(true);
-            soundManager.PlaySound(winSound);
+            SoundManager.Instance.PlaySound(winSound);
         }
 
         public void LoadNextLevel()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            gameSessionControl.ResetGameSession();
+            GameSession.Instance.ResetGameSession();
         }
 
         public void Restart()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            gameSessionControl.ResetGameSession();
+            GameSession.Instance.ResetGameSession();
         }
 
         public void MainMenu()
         {
             SceneManager.LoadScene(0);
-            gameSessionControl.ResetGameSession();
+            GameSession.Instance.ResetGameSession();
             PauseGame(false);
         }
 
@@ -105,12 +101,12 @@ namespace UI
 
         public void SoundVolume()
         {
-            soundManager.ChangeSoundVolume(0.2f);
+            SoundManager.Instance.ChangeSoundVolume(0.2f);
         }
 
         public void MusicVolume()
         {
-            soundManager.ChangeMusicVolume(0.2f);
+            SoundManager.Instance.ChangeMusicVolume(0.2f);
         }
 
         #endregion

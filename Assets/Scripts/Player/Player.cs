@@ -39,7 +39,6 @@ namespace Player
         private Rigidbody2D myRigidBody;
         private CapsuleCollider2D myCapsuleCollider;
         private SpriteRenderer mySprite;
-        private UIManager myUIManager;
         private PlayerInput playerInput;
         private PlayerCombat playerCombat;
         private PlayerAnimationController playerAnimationController;
@@ -49,7 +48,6 @@ namespace Player
             myRigidBody = GetComponent<Rigidbody2D>();
             myCapsuleCollider = GetComponent<CapsuleCollider2D>();
             mySprite = GetComponent<SpriteRenderer>();
-            myUIManager = UIManager.Instance;
             playerInput = FindObjectOfType<PlayerInput>();
             playerCombat = FindObjectOfType<PlayerCombat>();
             playerAnimationController = GetComponent<PlayerAnimationController>();
@@ -107,7 +105,7 @@ namespace Player
         private IEnumerator OpenGameOverScreen()
         {
             yield return new WaitForSeconds(1);
-            myUIManager.GameOver();
+            UIManager.Instance.GameOver();
         }
 
         private bool IsGrounded()
