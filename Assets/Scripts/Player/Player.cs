@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace Player
 {
-    public class Player : MonoBehaviour
+    public class Player : Subject
     {
         [Header("Health Components")] [SerializeField]
         private float startingHealth;
