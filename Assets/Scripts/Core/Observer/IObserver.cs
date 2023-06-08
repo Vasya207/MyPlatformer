@@ -4,6 +4,6 @@ namespace Core
 {
     public interface IObserver
     {
-        public void OnNotify();
+        public void OnNotify(float value);
     }
 }

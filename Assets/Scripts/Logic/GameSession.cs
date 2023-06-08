@@ -36,7 +36,6 @@ namespace Core
 
         private void ManageScore()
         {
-            MaximumScore = 0;
             var coinScore = FindObjectsOfType<Coin.Coin>();
             var chestScore = FindObjectsOfType<ChestLogic>();
             var enemyScore = FindObjectsOfType<Enemy>();

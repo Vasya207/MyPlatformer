@@ -1,22 +1,40 @@
+using System;
+using Core;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace HealthSystem
 {
-    public class Healthbar : MonoBehaviour
+    public class Healthbar : MonoBehaviour, IObserver
     {
         [SerializeField] private Player.Player player;
         [SerializeField] private Image totalHealthbar;
         [SerializeField] private Image currentHealthbar;
+        [SerializeField] private Subject playerSubject;
 
-        private void Start()
+        // private void Start()
+        // {
+        //     totalHealthbar.fillAmount = player.CurrentHealth / 10;
+        // }
+        //
+        // // private void Update()
+        // // {
+        // //     currentHealthbar.fillAmount = player.CurrentHealth / 10;
+        // // }
+
+        private void OnEnable()
         {
-            totalHealthbar.fillAmount = player.CurrentHealth / 10;
+            playerSubject.AddObserver(this);
         }
 
-        private void Update()
+        private void OnDisable()
         {
-            currentHealthbar.fillAmount = player.CurrentHealth / 10;
+            playerSubject.RemoveObserver(this);
+        }
+
+        public void OnNotify(float value)
+        {
+            currentHealthbar.fillAmount = value / 10;
         }
     }
 }

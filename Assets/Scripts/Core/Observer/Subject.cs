@@ -18,11 +18,11 @@ namespace Core
             observers.Remove(observer);
         }
 
-        protected void NotifyObservers()
+        protected void NotifyObservers(float value)
         {
             observers.ForEach((observer) =>
             {
-                observer.OnNotify();
+                observer.OnNotify(value);
             });
         }
     }

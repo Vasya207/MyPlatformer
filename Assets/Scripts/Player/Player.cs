@@ -53,6 +53,7 @@ namespace Player
             playerAnimationController = GetComponent<PlayerAnimationController>();
 
             CurrentHealth = startingHealth;
+            NotifyObservers(CurrentHealth);
         }
 
         private void Update()
@@ -149,6 +150,7 @@ namespace Player
         public void AddHealth(float value)
         {
             CurrentHealth = Mathf.Clamp(CurrentHealth + value, 0, startingHealth);
+            NotifyObservers(CurrentHealth);
         }
 
         private void FlipSprite()
@@ -181,6 +183,8 @@ namespace Player
                     StartCoroutine(OpenGameOverScreen());
                 }
             }
+            
+            NotifyObservers(CurrentHealth);
         }
     }
 }

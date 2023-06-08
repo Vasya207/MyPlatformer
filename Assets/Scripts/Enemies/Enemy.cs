@@ -130,7 +130,7 @@ namespace Enemies
 
                     SoundManager.Instance.PlaySound(deathSound);
 
-                    FindObjectOfType<GameSession>().AddToScore(rewardForKill);
+                    GameSession.Instance.AddToScore(rewardForKill);
                 }
             }
         }
