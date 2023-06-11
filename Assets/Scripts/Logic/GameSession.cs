@@ -3,6 +3,7 @@ using Chest;
 using Enemies;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Core
 {
@@ -34,6 +35,12 @@ namespace Core
             Destroy(gameObject);
         }
 
+        // private void CalculateScore()
+        // {
+        //     var scoreText = "YOU SCORED " + score + "/" + MaximumScore;
+        //     var prefName = "Level".ToUpper() + " " + SceneManager.GetActiveScene().buildIndex;
+        // }
+        
         private void ManageScore()
         {
             MaximumScore = 0;
@@ -47,6 +54,5 @@ namespace Core
 
             foreach (var enemy in enemyScore) MaximumScore += enemy.rewardForKill;
         }
-        
     }
 }

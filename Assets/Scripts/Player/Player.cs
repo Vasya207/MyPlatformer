@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Core;
 using UI;
@@ -64,6 +65,18 @@ namespace Player
             playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Grounded, IsGrounded());
         }
 
+        private void OnEnable()
+        {
+            Signals.OnDamagePlayer.AddListener(TakeDamage);
+            Signals.OnHealthCollect.AddListener(AddHealth);
+            Signals.OnLevelFinished.AddListener(DisablePlayerInput);
+        }
+
+        private void DisablePlayerInput()
+        {
+            if (playerInput != null) playerInput.enabled = false;
+        }
+        
         private void OnMove(InputValue value)
         {
             moveInput = value.Get<Vector2>();
@@ -148,6 +161,7 @@ namespace Player
 
         public void AddHealth(float value)
         {
+            if (CurrentHealth >= 3) return;
             CurrentHealth = Mathf.Clamp(CurrentHealth + value, 0, startingHealth);
         }
 
@@ -174,7 +188,7 @@ namespace Player
                     playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Death);
                     myRigidBody.velocity = new Vector2(0, 0);
                     GetComponent<Player>().enabled = false;
-                    if (playerInput != null) playerInput.enabled = false;
+                    DisablePlayerInput();
                     Dead = true;
 
                     SoundManager.Instance.PlaySound(deathSound);

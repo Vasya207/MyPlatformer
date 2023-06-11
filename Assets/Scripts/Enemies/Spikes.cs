@@ -10,7 +10,7 @@ namespace Enemies
         {
             if(collision.CompareTag("Player"))
             {
-                collision.GetComponent<Player.Player>().TakeDamage(damageAmount);
+                Signals.OnDamagePlayer.Invoke(damageAmount);
             }
         }
     }

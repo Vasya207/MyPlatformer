@@ -1,3 +1,4 @@
+using System;
 using Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -39,6 +40,11 @@ namespace UI
                 else
                     PauseGame(true);
             }
+        }
+
+        private void OnEnable()
+        {
+            Signals.OnLevelFinished.AddListener(ActivateWinScreen);
         }
 
         #region GameOver

@@ -1,3 +1,4 @@
+using System;
 using Core;
 using UnityEngine;
 
@@ -53,20 +54,32 @@ namespace Enemies
             cooldownTimer += Time.deltaTime;
 
             if (PlayerInSight() && player.CurrentHealth > 0)
+            {
                 if (cooldownTimer >= attackCooldown)
                 {
                     cooldownTimer = 0f;
                     enemyAnimationController.SetAction(EnemyAnimationController.EnemyState.MeleeAttack);
                     SoundManager.Instance.PlaySound(attackSound);
                 }
+            }
 
-            if (enemyPatrol != null) enemyPatrol.enabled = !PlayerInSight();
+            if (enemyPatrol != null)
+            {
+                enemyPatrol.enabled = !PlayerInSight();
+            }
+        }
+
+        private void OnEnable()
+        {
+            Signals.OnDamageEnemy.AddListener(TakeDamage);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.CompareTag("Player")) 
-                collision.GetComponent<Player.Player>().TakeDamage(collisionDamage);
+            if (collision.CompareTag("Player"))
+            {
+                Signals.OnDamagePlayer.Invoke(collisionDamage);
+            }
         }
 
         private bool PlayerInSight()
@@ -76,7 +89,10 @@ namespace Enemies
                 new Vector3(boxCollider.bounds.size.x * range, boxCollider.bounds.size.y, boxCollider.bounds.size.z),
                 0f, Vector2.left, 0f, playerLayer);
 
-            if (hit.collider != null) player = hit.transform.GetComponent<Player.Player>();
+            if (hit.collider != null)
+            {
+                player = hit.transform.GetComponent<Player.Player>();
+            }
 
             return hit.collider != null;
         }
@@ -89,6 +105,7 @@ namespace Enemies
                 new Vector3(boxCollider.bounds.size.x * range, boxCollider.bounds.size.y, boxCollider.bounds.size.z));
         }
 
+        // Used in animation
         private void DamagePlayer()
         {
             if (PlayerInSight())
@@ -129,8 +146,7 @@ namespace Enemies
                     dead = true;
 
                     SoundManager.Instance.PlaySound(deathSound);
-
-                    FindObjectOfType<GameSession>().AddToScore(rewardForKill);
+                    GameSession.Instance.AddToScore(rewardForKill);
                 }
             }
         }

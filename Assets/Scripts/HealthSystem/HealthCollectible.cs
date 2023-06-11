@@ -13,14 +13,9 @@ namespace HealthSystem
         {
             if (collision.CompareTag("Player"))
             {
-                var player = collision.GetComponent<Player.Player>();
-                if (player != null)
-                {
-                    if (player.CurrentHealth >= 3) return;
-                    player.AddHealth(healthValue);
-                    SoundManager.Instance.PlaySound(collectSound);
-                    gameObject.SetActive(false);
-                }
+                Signals.OnHealthCollect.Invoke(healthValue);
+                SoundManager.Instance.PlaySound(collectSound);
+                gameObject.SetActive(false);
             }
         }
     }

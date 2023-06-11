@@ -65,6 +65,7 @@ namespace Player
                 {
                     SoundManager.Instance.PlaySound(hitAudio);
                     hitObject.GetComponent<Enemy>().TakeDamage(damageAmount);
+                    //Signals.OnDamageEnemy.Invoke(damageAmount);
                 }
                 else if (hitObject.CompareTag("Chest"))
                 {

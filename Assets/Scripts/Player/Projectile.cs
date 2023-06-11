@@ -6,10 +6,12 @@ namespace Player
     public class Projectile : MonoBehaviour
     {
         [SerializeField] private float speed;
+        [SerializeField] private float damageAmount = 1f;
+        [SerializeField] private float lifetimeValue = 2f;
 
         private float direction;
         private bool hit;
-        private float lifeTime;
+        private float lifetime;
 
         private BoxCollider2D myCollider;
 
@@ -22,9 +24,12 @@ namespace Player
         {
             if (hit)
             {
-                lifeTime += Time.deltaTime;
+                lifetime += Time.deltaTime;
 
-                if (lifeTime > 2) gameObject.SetActive(false);
+                if (lifetime > lifetimeValue)
+                {
+                    gameObject.SetActive(false);
+                }
             }
             else
             {
@@ -45,13 +50,14 @@ namespace Player
             {
                 myCollider.enabled = false;
                 gameObject.SetActive(false);
-                collision.GetComponent<Enemy>().TakeDamage(1);
+                collision.GetComponent<Enemy>().TakeDamage(damageAmount);
+                //Signals.OnDamageEnemy.Invoke(damageAmount);
             }
         }
 
         public void SetDirection(float dir)
         {
-            lifeTime = 0;
+            lifetime = 0;
             direction = dir;
             gameObject.SetActive(true);
             hit = false;
