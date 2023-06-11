@@ -35,12 +35,6 @@ namespace Core
             Destroy(gameObject);
         }
 
-        // private void CalculateScore()
-        // {
-        //     var scoreText = "YOU SCORED " + score + "/" + MaximumScore;
-        //     var prefName = "Level".ToUpper() + " " + SceneManager.GetActiveScene().buildIndex;
-        // }
-        
         private void ManageScore()
         {
             MaximumScore = 0;

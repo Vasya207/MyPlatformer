@@ -14,4 +14,19 @@ public class DataController : Singleton<DataController>
         PlayerPrefs.SetInt($"Level {SceneManager.GetActiveScene().buildIndex}", 1);
         PlayerPrefs.Save();
     }
+
+    public void SaveScore(string key, int score)
+    {
+        if (PlayerPrefs.GetInt(key) < score)
+        {
+            PlayerPrefs.SetInt(key,score);
+            PlayerPrefs.Save();
+        }
+    }
+
+    public void SaveMenuText(string key, string menuText)
+    {
+        PlayerPrefs.SetString(key, menuText);
+        PlayerPrefs.Save();
+    }
 }
