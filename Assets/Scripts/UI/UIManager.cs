@@ -47,6 +47,11 @@ namespace UI
             Signals.OnLevelFinished.AddListener(ActivateWinScreen);
         }
 
+        private void OnDisable()
+        {
+            Signals.OnLevelFinished.RemoveListener(ActivateWinScreen);
+        }
+
         #region GameOver
 
         public void GameOver()

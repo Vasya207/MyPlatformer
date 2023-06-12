@@ -74,6 +74,11 @@ namespace Enemies
             Signals.OnDamageEnemy.AddListener(TakeDamage);
         }
 
+        private void OnDisable()
+        {
+            Signals.OnDamagePlayer.RemoveListener(TakeDamage);
+        }
+
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.CompareTag("Player"))

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Core;
 using UI;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -70,6 +71,13 @@ namespace Player
             Signals.OnDamagePlayer.AddListener(TakeDamage);
             Signals.OnHealthCollect.AddListener(AddHealth);
             Signals.OnLevelFinished.AddListener(DisablePlayerInput);
+        }
+
+        private void OnDisable()
+        {
+            Signals.OnDamagePlayer.RemoveListener(TakeDamage);
+            Signals.OnHealthCollect.RemoveListener(AddHealth);
+            Signals.OnLevelFinished.RemoveListener(DisablePlayerInput);
         }
 
         private void DisablePlayerInput()

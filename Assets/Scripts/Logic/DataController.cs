@@ -1,3 +1,4 @@
+using System;
 using Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,6 +8,11 @@ public class DataController : Singleton<DataController>
     private void OnEnable()
     {
         Signals.OnLevelFinished.AddListener(MarkLevelAsFinished);
+    }
+
+    private void OnDisable()
+    {
+        Signals.OnLevelFinished.RemoveListener(MarkLevelAsFinished);
     }
 
     public void MarkLevelAsFinished()
