@@ -1,4 +1,5 @@
 using System;
+using Helpers;
 using UnityEngine;
 
 namespace Player
@@ -8,41 +9,33 @@ namespace Player
     {
         [SerializeField] private Animator animator;
 
-        private const string MovementBoolName = "isRunning";
-        private const string AttackTriggerName = "attack";
-        private const string ShootTriggerName = "shoot";
-        private const string HurtTriggerName = "hurt";
-        private const string GroundedBoolName = "grounded";
-        private const string IsJumpingTriggerName = "isJumping";
-        private const string DeathTriggerName = "die";
-        
         public void SetAction(PlayerState playerState, bool currentState = false)
         {
             switch (playerState)
             {
                 case PlayerState.Idle:
-                    animator.SetBool(MovementBoolName, false);
+                    animator.SetBool(Constants.MovementBoolName, false);
                     break;
                 case PlayerState.Movement:
-                    animator.SetBool(MovementBoolName, currentState);
+                    animator.SetBool(Constants.MovementBoolName, currentState);
                     break;
                 case PlayerState.Attack:
-                    animator.SetTrigger(AttackTriggerName);
+                    animator.SetTrigger(Constants.AttackTriggerName);
                     break;
                 case PlayerState.Shoot:
-                    animator.SetTrigger(ShootTriggerName);
+                    animator.SetTrigger(Constants.ShootTriggerName);
                     break;
                 case PlayerState.ReceiveDamage:
-                    animator.SetTrigger(HurtTriggerName);
+                    animator.SetTrigger(Constants.HurtTriggerName);
                     break;
                 case PlayerState.Grounded:
-                    animator.SetBool(GroundedBoolName, currentState);
+                    animator.SetBool(Constants.GroundedBoolName, currentState);
                     break;
                 case PlayerState.IsJumping:
-                    animator.SetTrigger(IsJumpingTriggerName);
+                    animator.SetTrigger(Constants.IsJumpingTriggerName);
                     break;
                 case PlayerState.Death:
-                    animator.SetTrigger(DeathTriggerName);
+                    animator.SetTrigger(Constants.DeathTriggerName);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(playerState), playerState, null);

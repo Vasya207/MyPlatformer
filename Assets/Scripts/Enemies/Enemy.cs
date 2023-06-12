@@ -15,12 +15,10 @@ namespace Enemies
 
         [Header("Health Components")] 
         [SerializeField] private float startingHealth;
-
         [SerializeField] public int rewardForKill;
 
         [Header("Collider Parameters")] 
         [SerializeField] private float colliderDistance;
-
         [SerializeField] private BoxCollider2D boxCollider;
 
         [Header("Player Layer")] 

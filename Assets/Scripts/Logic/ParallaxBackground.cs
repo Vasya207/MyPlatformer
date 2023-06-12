@@ -10,7 +10,6 @@ namespace Core
         [SerializeField] private bool menuEffect;
         [SerializeField] private float movingSpeed;
 
-
         private Transform cameraTransform;
         private Vector3 lastCameraPosition;
         private float textureUnitSizeX;

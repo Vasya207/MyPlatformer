@@ -1,4 +1,5 @@
 using System;
+using Helpers;
 using UnityEngine;
 
 namespace Enemies
@@ -8,29 +9,24 @@ namespace Enemies
     {
         [SerializeField] private Animator animator;
 
-        private const string MovementBoolName = "moving";
-        private const string MeleeAttackTriggerName = "meleeAttack";
-        private const string HurtTriggerName = "hurt";
-        private const string DeathTriggerName = "die";
-
         public void SetAction(EnemyState enemyState)
         {
             switch (enemyState)
             {
                 case EnemyState.Idle:
-                    animator.SetBool(MovementBoolName, false);
+                    animator.SetBool(Constants.MovementBoolName, false);
                     break;
                 case EnemyState.Movement:
-                    animator.SetBool(MovementBoolName, true);
+                    animator.SetBool(Constants.MovementBoolName, true);
                     break;
                 case EnemyState.MeleeAttack:
-                    animator.SetTrigger(MeleeAttackTriggerName);
+                    animator.SetTrigger(Constants.MeleeAttackTriggerName);
                     break;
                 case EnemyState.ReceiveDamage:
-                    animator.SetTrigger(HurtTriggerName);
+                    animator.SetTrigger(Constants.HurtTriggerName);
                     break;
                 case EnemyState.Death:
-                    animator.SetTrigger(DeathTriggerName);
+                    animator.SetTrigger(Constants.DeathTriggerName);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(enemyState), enemyState, null);

@@ -1,14 +1,11 @@
 using Enemies;
+using Helpers;
 using UnityEngine;
 
 namespace Player
 {
     public class Projectile : MonoBehaviour
     {
-        [SerializeField] private float speed;
-        [SerializeField] private float damageAmount = 1f;
-        [SerializeField] private float lifetimeValue = 2f;
-
         private float direction;
         private bool hit;
         private float lifetime;
@@ -26,14 +23,14 @@ namespace Player
             {
                 lifetime += Time.deltaTime;
 
-                if (lifetime > lifetimeValue)
+                if (lifetime > Constants.ProjectileLifetimeValue)
                 {
                     gameObject.SetActive(false);
                 }
             }
             else
             {
-                var movementSpeed = speed * Time.deltaTime * direction;
+                var movementSpeed = Constants.ProjectileSpeed * Time.deltaTime * direction;
                 transform.Translate(movementSpeed, 0, 0);
             }
         }
@@ -50,7 +47,7 @@ namespace Player
             {
                 myCollider.enabled = false;
                 gameObject.SetActive(false);
-                collision.GetComponent<Enemy>().TakeDamage(damageAmount);
+                collision.GetComponent<Enemy>().TakeDamage(Constants.ProjectileDamageAmount);
                 //Signals.OnDamageEnemy.Invoke(damageAmount);
             }
         }

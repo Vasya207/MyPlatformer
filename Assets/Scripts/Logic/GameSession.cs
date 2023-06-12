@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Chest;
 using Enemies;
+using Helpers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -42,7 +43,7 @@ namespace Core
             var chestScore = FindObjectsOfType<ChestLogic>();
             var enemyScore = FindObjectsOfType<Enemy>();
 
-            foreach (var coin in coinScore) MaximumScore += coin.pointsForCoinPickup;
+            foreach (var coin in coinScore) MaximumScore += Constants.CoinValue;
 
             foreach (var chest in chestScore) MaximumScore += chest.coinsInChest;
 

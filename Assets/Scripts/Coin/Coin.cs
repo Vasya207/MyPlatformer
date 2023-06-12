@@ -1,11 +1,11 @@
 using Core;
+using Helpers;
 using UnityEngine;
 
 namespace Coin
 {
     public class Coin : MonoBehaviour
     {
-        [SerializeField] public int pointsForCoinPickup;
         [SerializeField] private AudioClip collectSound;
 
         private bool wasCollected;
@@ -15,7 +15,7 @@ namespace Coin
             if(collision.CompareTag("Player") && !wasCollected)
             {
                 SoundManager.Instance.PlaySound(collectSound);
-                GameSession.Instance.AddToScore(pointsForCoinPickup);
+                GameSession.Instance.AddToScore(Constants.CoinValue);
                 wasCollected = true;
                 Destroy(gameObject);
             }
