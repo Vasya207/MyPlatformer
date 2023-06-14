@@ -1,3 +1,4 @@
+using System;
 using Enemies;
 using Helpers;
 using UnityEngine;
@@ -9,59 +10,45 @@ namespace Player
         private float direction;
         private bool hit;
         private float lifetime;
-
-        private BoxCollider2D myCollider;
-
-        private void Awake()
-        {
-            myCollider = GetComponent<BoxCollider2D>();
-        }
+        private float movementSpeed;
 
         private void Update()
         {
-            if (hit)
-            {
-                lifetime += Time.deltaTime;
+            lifetime += Time.deltaTime;
 
-                if (lifetime > Constants.ProjectileLifetimeValue)
-                {
-                    gameObject.SetActive(false);
-                }
-            }
-            else
+            if (lifetime > Constants.ProjectileLifetimeValue)
             {
-                var movementSpeed = Constants.ProjectileSpeed * Time.deltaTime * direction;
-                transform.Translate(movementSpeed, 0, 0);
+                gameObject.SetActive(false);
             }
+
+            movementSpeed = Constants.ProjectileSpeed * Time.deltaTime * direction;
+            transform.Translate(movementSpeed, 0, 0);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.CompareTag("Platforms"))
             {
-                hit = true;
-                myCollider.enabled = false;
+                movementSpeed = 0;
             }
-
+        
             else if (collision.CompareTag("Enemy"))
             {
-                myCollider.enabled = false;
-                gameObject.SetActive(false);
+                Debug.Log("ENEMY");
                 collision.GetComponent<Enemy>().TakeDamage(Constants.ProjectileDamageAmount);
-                //Signals.OnDamageEnemy.Invoke(damageAmount);
+                gameObject.SetActive(false);
             }
         }
 
         public void SetDirection(float dir)
         {
-            lifetime = 0;
             direction = dir;
-            gameObject.SetActive(true);
-            hit = false;
-            myCollider.enabled = true;
 
             var localScaleX = transform.localScale.x;
-            if (Mathf.Sign(localScaleX) != dir) localScaleX = -localScaleX;
+            if (Mathf.Sign(localScaleX) != dir)
+            {
+                localScaleX = -localScaleX;
+            }
 
             transform.localScale = new Vector3(localScaleX, transform.localScale.y, transform.localScale.z);
         }

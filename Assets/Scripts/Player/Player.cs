@@ -11,7 +11,7 @@ namespace Player
     public class Player : MonoBehaviour
     {
         [Header("Health Components")] [SerializeField]
-        private float startingHealth;
+        private float startingHealth = 3;
 
         [Header("Movement Components")] [SerializeField]
         private float moveSpeed = 10f;
@@ -98,8 +98,13 @@ namespace Player
                 playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Shoot);
                 cooldownTimer = 0;
 
-                arrows[FindArrow()].transform.position = firePoint.position;
-                arrows[FindArrow()].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
+                GameObject projectile = ObjectPool.SharedInstance.GetPooledObject(); 
+                if (projectile != null) {
+                    projectile.GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
+                    projectile.transform.position = firePoint.transform.position;
+                    projectile.transform.rotation = firePoint.transform.rotation;
+                    projectile.SetActive(true);
+                }
             }
         }
 
