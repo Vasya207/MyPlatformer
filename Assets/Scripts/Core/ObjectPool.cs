@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Security.Cryptography;
 using Player;
 using Unity.VisualScripting;
@@ -8,8 +9,8 @@ using UnityEngine.Pool;
 public class ObjectPool : MonoBehaviour
 {
     [SerializeField] private Projectile objectToPool;
-    [SerializeField] private int amountToPool = 1;
     [SerializeField] private Transform spawnPosition;
+    //[SerializeField] private int amountToPool = 1;
     private ObjectPool<Projectile> pooledObjects;
 
     private const int dafaultCapacity = 5;
@@ -53,11 +54,10 @@ public class ObjectPool : MonoBehaviour
         Destroy(objectToPool.gameObject);
     }
 
-    public void Spawn(float dir)
+    private void Spawn(float dir)
     {
+        objectToPool.transform.position = spawnPosition.transform.position;
         var obj = pooledObjects.Get();
-        objectToPool.transform.position = spawnPosition.position;
-        objectToPool.transform.rotation = spawnPosition.rotation;
         obj.SetDirection(dir);
     }
 
@@ -65,5 +65,4 @@ public class ObjectPool : MonoBehaviour
     {
         pooledObjects.Release(obj);
     }
-
 }

@@ -11,7 +11,7 @@ namespace Player
         private bool hit;
         private float lifetime;
         private float movementSpeed;
-
+        
         private void Update()
         {
             lifetime += Time.deltaTime;
@@ -22,15 +22,18 @@ namespace Player
                 //Signals.OnDeactivateProjectile.Invoke(this);
             }
 
-            movementSpeed = Constants.ProjectileSpeed * Time.deltaTime * direction;
-            transform.Translate(movementSpeed, 0, 0);
+            if (!hit)
+            {
+                movementSpeed = Constants.ProjectileSpeed * Time.deltaTime * direction;
+                transform.Translate(movementSpeed, 0, 0);
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.CompareTag("Platforms"))
             {
-                movementSpeed = 0;
+                hit = true;
             }
         
             else if (collision.CompareTag("Enemy"))
