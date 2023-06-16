@@ -18,8 +18,7 @@ namespace Player
 
             if (lifetime > Constants.ProjectileLifetimeValue)
             {
-                gameObject.SetActive(false);
-                //Signals.OnDeactivateProjectile.Invoke(this);
+                Signals.OnDeactivateProjectile.Invoke(this);
             }
 
             if (!hit)
@@ -39,8 +38,7 @@ namespace Player
             else if (collision.CompareTag("Enemy"))
             {
                 collision.GetComponent<Enemy>().TakeDamage(Constants.ProjectileDamageAmount);
-                //Signals.OnDeactivateProjectile.Invoke(this);
-                gameObject.SetActive(false);
+                Signals.OnDeactivateProjectile.Invoke(this);
             }
         }
 

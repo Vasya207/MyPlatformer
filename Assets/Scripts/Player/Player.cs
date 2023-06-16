@@ -97,7 +97,7 @@ namespace Player
                 SoundManager.Instance.PlaySound(arrowSound);
                 playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Shoot);
                 cooldownTimer = 0;
-                
+
                 Signals.OnSpawnProjectile.Invoke(Mathf.Sign(transform.localScale.x));
             }
         }
@@ -148,14 +148,6 @@ namespace Player
             }
 
             Physics2D.IgnoreLayerCollision(9, 11, false);
-        }
-
-        private int FindArrow()
-        {
-            for (var i = 0; i < arrows.Length; i++)
-                if (!arrows[i].activeInHierarchy)
-                    return i;
-            return 0;
         }
 
         private bool CanAttack()
