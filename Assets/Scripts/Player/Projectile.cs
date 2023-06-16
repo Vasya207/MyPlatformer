@@ -19,6 +19,7 @@ namespace Player
             if (lifetime > Constants.ProjectileLifetimeValue)
             {
                 gameObject.SetActive(false);
+                //Signals.OnDeactivateProjectile.Invoke(this);
             }
 
             movementSpeed = Constants.ProjectileSpeed * Time.deltaTime * direction;
@@ -34,8 +35,8 @@ namespace Player
         
             else if (collision.CompareTag("Enemy"))
             {
-                Debug.Log("ENEMY");
                 collision.GetComponent<Enemy>().TakeDamage(Constants.ProjectileDamageAmount);
+                //Signals.OnDeactivateProjectile.Invoke(this);
                 gameObject.SetActive(false);
             }
         }

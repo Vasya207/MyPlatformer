@@ -1,39 +1,69 @@
-using System.Collections.Generic;
+using System;
+using System.Security.Cryptography;
+using Player;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class ObjectPool : MonoBehaviour
 {
-    public static ObjectPool SharedInstance;
-    [SerializeField] private List<GameObject> pooledObjects;
-    [SerializeField] private GameObject objectToPool;
-    [SerializeField] private int amountToPool;
+    [SerializeField] private Projectile objectToPool;
+    [SerializeField] private int amountToPool = 1;
+    [SerializeField] private Transform spawnPosition;
+    private ObjectPool<Projectile> pooledObjects;
 
-    void Awake()
+    private const int dafaultCapacity = 5;
+    private const int maxSize = 20;
+
+    private void Start()
     {
-        SharedInstance = this;
+        pooledObjects = new ObjectPool<Projectile>(CreateFunc, ActionOnGet, ActionOnRelease, ActionOnDestroy,
+            false, dafaultCapacity, maxSize);
     }
 
-    void Start()
+    private void OnEnable()
     {
-        pooledObjects = new List<GameObject>();
-        GameObject tmp;
-        for(int i = 0; i < amountToPool; i++)
-        {
-            tmp = Instantiate(objectToPool);
-            tmp.SetActive(false);
-            pooledObjects.Add(tmp);
-        }
+        Signals.OnSpawnProjectile.AddListener(Spawn);
+        Signals.OnDeactivateProjectile.AddListener(DeactivateObject);
+    }
+
+    private void OnDisable()
+    {
+        Signals.OnSpawnProjectile.RemoveListener(Spawn);
+        Signals.OnDeactivateProjectile.RemoveListener(DeactivateObject);
+    }
+
+    private Projectile CreateFunc()
+    {
+        return Instantiate(objectToPool);
+    }
+
+    private void ActionOnGet(Projectile obj)
+    {
+        objectToPool.gameObject.SetActive(true);
     }
     
-    public GameObject GetPooledObject()
+    private void ActionOnRelease(Projectile obj)
     {
-        for(int i = 0; i < amountToPool; i++)
-        {
-            if(!pooledObjects[i].activeInHierarchy)
-            {
-                return pooledObjects[i];
-            }
-        }
-        return null;
+        objectToPool.gameObject.SetActive(false);
     }
+    
+    private void ActionOnDestroy(Projectile obj)
+    {
+        Destroy(objectToPool.gameObject);
+    }
+
+    public void Spawn(float dir)
+    {
+        var obj = pooledObjects.Get();
+        objectToPool.transform.position = spawnPosition.position;
+        objectToPool.transform.rotation = spawnPosition.rotation;
+        obj.SetDirection(dir);
+    }
+
+    private void DeactivateObject(Projectile obj)
+    {
+        pooledObjects.Release(obj);
+    }
+
 }

@@ -97,14 +97,8 @@ namespace Player
                 SoundManager.Instance.PlaySound(arrowSound);
                 playerAnimationController.SetAction(PlayerAnimationController.PlayerState.Shoot);
                 cooldownTimer = 0;
-
-                GameObject projectile = ObjectPool.SharedInstance.GetPooledObject(); 
-                if (projectile != null) {
-                    projectile.GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
-                    projectile.transform.position = firePoint.transform.position;
-                    projectile.transform.rotation = firePoint.transform.rotation;
-                    projectile.SetActive(true);
-                }
+                
+                Signals.OnSpawnProjectile.Invoke(Mathf.Sign(transform.localScale.x));
             }
         }
 
