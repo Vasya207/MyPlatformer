@@ -13,9 +13,12 @@ namespace HealthSystem
         {
             if (collision.CompareTag("Player"))
             {
-                Signals.OnHealthCollect.Invoke(Constants.HealthValue);
+                var res = Signals.OnHealthCollectFunc.Invoke(Constants.HealthValue);
+                if (!res)
+                {
+                    gameObject.SetActive(false);
+                }
                 SoundManager.Instance.PlaySound(collectSound);
-                gameObject.SetActive(false);
             }
         }
     }

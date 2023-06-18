@@ -69,14 +69,14 @@ namespace Player
         private void OnEnable()
         {
             Signals.OnDamagePlayer.AddListener(TakeDamage);
-            Signals.OnHealthCollect.AddListener(AddHealth);
+            Signals.OnHealthCollectFunc += AddHealth;
             Signals.OnLevelFinished.AddListener(DisablePlayerInput);
         }
 
         private void OnDisable()
         {
             Signals.OnDamagePlayer.RemoveListener(TakeDamage);
-            Signals.OnHealthCollect.RemoveListener(AddHealth);
+            Signals.OnHealthCollectFunc -= AddHealth;
             Signals.OnLevelFinished.RemoveListener(DisablePlayerInput);
         }
 
@@ -158,10 +158,14 @@ namespace Player
                    && cooldownTimer > attackCooldown;
         }
 
-        public void AddHealth(float value)
+        private bool AddHealth(float value)
         {
-            if (CurrentHealth >= 3) return;
+            if (CurrentHealth >= 3)
+            {
+                return true;
+            }
             CurrentHealth = Mathf.Clamp(CurrentHealth + value, 0, startingHealth);
+            return false;
         }
 
         private void FlipSprite()
