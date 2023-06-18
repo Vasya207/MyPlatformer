@@ -11,21 +11,28 @@ namespace Player
         private bool hit;
         private float lifetime;
         private float movementSpeed;
-        
+
+        private void OnEnable()
+        {
+            lifetime = 0;
+            hit = false;
+        }
+
         private void Update()
         {
             lifetime += Time.deltaTime;
-
+            
             if (lifetime > Constants.ProjectileLifetimeValue)
             {
                 Signals.OnDeactivateProjectile.Invoke(this);
             }
-
+            
             if (!hit)
             {
                 movementSpeed = Constants.ProjectileSpeed * Time.deltaTime * direction;
                 transform.Translate(movementSpeed, 0, 0);
             }
+            
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
