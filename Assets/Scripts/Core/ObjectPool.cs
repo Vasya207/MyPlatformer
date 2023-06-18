@@ -1,14 +1,10 @@
-using System;
-using System.Collections;
-using System.Security.Cryptography;
 using Player;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
 namespace Core
 {
-    public class ObjectPool : Singleton<ObjectPool>
+    public class ObjectPool : MonoBehaviour
     {
         [SerializeField] private Projectile objectToPool;
         [SerializeField] private Transform spawnPosition;
@@ -57,7 +53,6 @@ namespace Core
     
         private void Spawn(float dir)
         {
-            Debug.Log("Spawning");
             var obj = pooledObjects.Get();
             obj.transform.position = spawnPosition.transform.position;
             obj.SetDirection(dir);

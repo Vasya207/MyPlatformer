@@ -25,5 +25,8 @@ namespace Helpers
         public const float ProjectileSpeed = 20f;
         public const float ProjectileDamageAmount = 1f;
         public const float ProjectileLifetimeValue = 2f;
+        
+        // Player
+        public const int PlayerMaxHealth = 3;
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Core;
+using Helpers;
 using UI;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -51,7 +52,7 @@ namespace Player
             myCapsuleCollider = GetComponent<CapsuleCollider2D>();
             mySprite = GetComponent<SpriteRenderer>();
             playerInput = FindObjectOfType<PlayerInput>();
-            playerCombat = FindObjectOfType<PlayerCombat>();
+            playerCombat = GetComponent<PlayerCombat>();
             playerAnimationController = GetComponent<PlayerAnimationController>();
 
             CurrentHealth = startingHealth;
@@ -160,7 +161,7 @@ namespace Player
 
         private bool AddHealth(float value)
         {
-            if (CurrentHealth >= 3)
+            if (CurrentHealth >= Constants.PlayerMaxHealth)
             {
                 return true;
             }
