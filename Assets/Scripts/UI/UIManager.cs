@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -51,7 +52,13 @@ namespace UI
         {
             Signals.OnLevelFinished.RemoveListener(ActivateWinScreen);
         }
-
+        
+        public IEnumerator OpenGameOverScreen()
+        {
+            yield return new WaitForSeconds(1);
+            GameOver();
+        }
+        
         #region GameOver
 
         public void GameOver()

@@ -123,12 +123,6 @@ namespace Player
                 playerHasHorizontalSpeed);
         }
 
-        private IEnumerator OpenGameOverScreen()
-        {
-            yield return new WaitForSeconds(1);
-            UIManager.Instance.GameOver();
-        }
-
         private bool IsGrounded()
         {
             var raycastHit = Physics2D.BoxCast(myCapsuleCollider.bounds.center,
@@ -196,7 +190,7 @@ namespace Player
                     Dead = true;
 
                     SoundManager.Instance.PlaySound(deathSound);
-                    StartCoroutine(OpenGameOverScreen());
+                    StartCoroutine(UIManager.Instance.OpenGameOverScreen());
                 }
             }
         }
